@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SeraphimEngine.Managers;
+using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Scene;
 
 namespace SeraphimEngine.TestGame
 {

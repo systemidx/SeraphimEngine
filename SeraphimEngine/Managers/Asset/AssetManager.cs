@@ -2,12 +2,28 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SeraphimEngine.Exceptions;
 
-namespace SeraphimEngine
+namespace SeraphimEngine.Managers.Asset
 {
+    /// <summary>
+    /// Class AssetManager.
+    /// </summary>
     public class AssetManager : IAssetManager {
+
+        #region Private Members
+
+        /// <summary>
+        /// The content manager
+        /// </summary>
         private ContentManager _content;
+
+        /// <summary>
+        /// The graphics device
+        /// </summary>
         private GraphicsDevice _graphics;
+
+        #endregion
 
         public IDictionary<string, object> ObjectCache { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 

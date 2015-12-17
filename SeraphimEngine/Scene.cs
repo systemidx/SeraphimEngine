@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using SeraphimEngine.Managers;
+using SeraphimEngine.Managers.Asset;
 
 namespace SeraphimEngine
 {

@@ -49,17 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssetManager.cs" />
-    <Compile Include="IAssetManager.cs" />
-    <Compile Include="IManager.cs" />
+    <Compile Include="Managers\Asset\AssetManager.cs" />
+    <Compile Include="Managers\Asset\IAssetManager.cs" />
+    <Compile Include="Managers\IManager.cs" />
     <Compile Include="IScene.cs" />
-    <Compile Include="ISceneManager.cs" />
+    <Compile Include="Managers\Scene\ISceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
-    <Compile Include="AssetManagerInitializationException.cs" />
-    <Compile Include="SceneManagerInitializationException.cs" />
-    <Compile Include="SceneInitializationException.cs" />
-    <Compile Include="SceneManager.cs" />
+    <Compile Include="Exceptions\AssetManagerInitializationException.cs" />
+    <Compile Include="Exceptions\SceneManagerInitializationException.cs" />
+    <Compile Include="Exceptions\SceneInitializationException.cs" />
+    <Compile Include="Managers\Scene\SceneManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

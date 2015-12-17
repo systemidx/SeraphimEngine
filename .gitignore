@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/SeraphimEngine.TestGame/bin/Windows/Debug
+/.vs/SeraphimEngine/v14
+/packages/MonoGame.Extended.0.4.64
+/SeraphimEngine.Tests/obj/Debug
+/SeraphimEngine.TestGame/obj/x86/Debug
+/SeraphimEngine/obj/Debug
+/SeraphimEngine/bin/Debug
