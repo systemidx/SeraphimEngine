@@ -6,6 +6,7 @@ namespace SeraphimEngine.Managers {
     /// Interface IManager
     /// </summary>
     public interface IManager {
+
         /// <summary>
         /// Gets a value indicating whether this instance is initialized.
         /// </summary>

@@ -1,11 +1,13 @@
 ﻿using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using SeraphimEngine.Scene;
 
 namespace SeraphimEngine.Managers.Scene {
     /// <summary>
     /// Interface ISceneManager
     /// </summary>
     public interface ISceneManager : IManager, IUpdate, IDraw {
+
         /// <summary>
         /// Gets the viewport adapter.
         /// </summary>

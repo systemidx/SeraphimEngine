@@ -4,14 +4,15 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
 using SeraphimEngine.Exceptions;
+using SeraphimEngine.Scene;
 
 namespace SeraphimEngine.Managers.Scene {
 
     /// <summary>
     /// Class SceneManager.
     /// </summary>
-    public class SceneManager : ISceneManager {
-
+    public class SceneManager : Manager<SceneManager>, ISceneManager {
+        
         #region Private Members
         /// <summary>
         /// The graphics device
@@ -42,44 +43,45 @@ namespace SeraphimEngine.Managers.Scene {
         /// Gets a value indicating whether this instance is initialized.
         /// </summary>
         /// <value><c>true</c> if this instance is initialized; otherwise, <c>false</c>.</value>
-        public bool IsInitialized { get; private set; } = false;
+        public override bool IsInitialized { get; protected set; } = false;
 
         #endregion
 
-        #region Private Constructor + Singleton Instance
-        /// <summary>
-        /// Prevents a default instance of the <see cref="SceneManager"/> class from being created.
-        /// </summary>
-        private SceneManager() {}
+        #region Override Methods
 
         /// <summary>
-        /// The instance
+        /// Initializes the specified content.
         /// </summary>
-        public static readonly SceneManager Instance = new Lazy<SceneManager>(() => new SceneManager()).Value;
-        #endregion
-
-        public void Initialize(ContentManager content, GraphicsDevice graphics) {
+        /// <param name="content">The content.</param>
+        /// <param name="graphics">The graphics.</param>
+        public override void Initialize(ContentManager content, GraphicsDevice graphics) {
             _content = content;
             _graphics = graphics;
-            ViewportAdapter = new ScalingViewportAdapter(_graphics, 800, 600);
+            ViewportAdapter = new BoxingViewportAdapter(_graphics, 1920, 1080);
 
             IsInitialized = true;
         }
+
+        #endregion
 
         public void SwitchScene(string sceneId) {
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
-            CurrentScene?.Exit();
+            //CurrentScene?.Exit();
+            //CurrentScene?.Script.OnEnter();
             CurrentScene = LoadScene();
-            CurrentScene.Enter();
+            //CurrentScene.Script.OnExit();
         }
 
         private IScene LoadScene() {
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
-            return new SeraphimEngine.Scene(_graphics, ViewportAdapter);
+            IScene scene = new CustomScene(_graphics, ViewportAdapter);
+            scene.Load();
+
+            return scene;
         }
 
         public void Update(GameTime gameTime) {

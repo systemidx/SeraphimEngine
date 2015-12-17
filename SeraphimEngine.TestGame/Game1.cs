@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SeraphimEngine.Managers;
 using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
+using SeraphimEngine.Managers.Script;
 
 namespace SeraphimEngine.TestGame
 {
@@ -12,13 +14,12 @@ namespace SeraphimEngine.TestGame
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        
-        public Game1()
-        {
-            graphics = new GraphicsDeviceManager(this);
+        private readonly GraphicsDeviceManager _graphics;
+
+        public Game1() {
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -29,11 +30,18 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void Initialize()
         {
-            SceneManager.Instance.Initialize(Content, graphics.GraphicsDevice);
-            AssetManager.Instance.Initialize(Content, graphics.GraphicsDevice);
+            InputManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
+            SceneManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
+            AssetManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
+            ScriptManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
+            
+            //ScriptRunner runner = new ScriptRunner();
+            //runner.RunScript("test");
 
-            GraphicsDevice.PresentationParameters.BackBufferWidth = 1280;
-            GraphicsDevice.PresentationParameters.BackBufferHeight = 768;
+            _graphics.PreferredBackBufferWidth = 600;
+            _graphics.PreferredBackBufferHeight = 480;
+            //_graphics.IsFullScreen = true;
+            _graphics.ApplyChanges();
             
             base.Initialize();
         }
@@ -66,6 +74,8 @@ namespace SeraphimEngine.TestGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputManager.Instance.Update(gameTime);
+            ScriptManager.Instance.Update(gameTime);
             SceneManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
@@ -79,6 +89,7 @@ namespace SeraphimEngine.TestGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            ScriptManager.Instance.Draw(gameTime);
             SceneManager.Instance.Draw(gameTime);
 
             base.Draw(gameTime);

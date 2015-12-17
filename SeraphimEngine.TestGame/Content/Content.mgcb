@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\SeraphimEngine.ContentPipeline\bin\Debug\SeraphimEngine.ContentPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -23,4 +24,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
 /build:Spritesheets/ui.png
+
+#begin Scripts/Scene/scene-test.csx
+/importer:ScriptImporter
+/processor:ScriptProcessor
+/build:Scripts/Scene/scene-test.csx
 

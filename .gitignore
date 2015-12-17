@@ -9,3 +9,9 @@
 /SeraphimEngine.TestGame/obj/x86/Debug
 /SeraphimEngine/obj/Debug
 /SeraphimEngine/bin/Debug
+/packages
+/SeraphimEngine.ContentPipeline/obj/Debug
+/SeraphimEngine.ContentPipeline/bin/Debug
+/SeraphimEngine.Tests/bin/Debug
+/SeraphimEngine.TestGame/Content/obj
+/SeraphimEngine.TestGame/Content/bin
