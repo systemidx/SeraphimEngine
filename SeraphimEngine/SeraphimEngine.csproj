@@ -133,7 +133,7 @@
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="Managers\Script\IScriptManager.cs" />
     <Compile Include="Managers\Script\ScriptManager.cs" />
-    <Compile Include="Scene\CustomScene.cs" />
+    <Compile Include="Managers\Script\ScriptType.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Managers\Scene\ISceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

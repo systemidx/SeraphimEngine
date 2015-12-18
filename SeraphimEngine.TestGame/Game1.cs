@@ -6,6 +6,7 @@ using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.Managers.Script;
+using SeraphimEngine.TestGame.Scenes;
 
 namespace SeraphimEngine.TestGame
 {
@@ -52,7 +53,7 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void LoadContent()
         {
-            SceneManager.Instance.SwitchScene("");
+            SceneManager.Instance.SwitchScene(typeof(CustomScene));
         }
 
         /// <summary>

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SeraphimEngine.Managers {
+namespace SeraphimEngine.Managers
+{
     /// <summary>
     /// Interface IManager
     /// </summary>
-    public interface IManager {
-
+    public interface IManager
+    {
         /// <summary>
         /// Gets a value indicating whether this instance is initialized.
         /// </summary>

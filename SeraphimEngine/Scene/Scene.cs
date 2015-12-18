@@ -10,8 +10,8 @@ namespace SeraphimEngine.Scene
     /// <summary>
     /// Class Scene.
     /// </summary>
-    public abstract class Scene : IScene {
-
+    public abstract class Scene : IScene
+    {
         #region Member Variables
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace SeraphimEngine.Scene
         /// </summary>
         /// <value>The scene camera.</value>
         public Camera2D SceneCamera { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -38,17 +38,38 @@ namespace SeraphimEngine.Scene
         /// </summary>
         /// <param name="graphics">The graphics.</param>
         /// <param name="viewport">The viewport.</param>
-        protected Scene(GraphicsDevice graphics, ViewportAdapter viewport) {
+        protected Scene(GraphicsDevice graphics, ViewportAdapter viewport)
+        {
             SceneCamera = new Camera2D(viewport);
             SpriteBatch = new SpriteBatch(graphics);
         }
 
         #endregion
 
+        #region Abstract Methods / Game Flow Methods
+
+        /// <summary>
+        /// Loads this instance.
+        /// </summary>
         public abstract void Load();
+
+        /// <summary>
+        /// Unloads this instance.
+        /// </summary>
         public abstract void Unload();
 
+        /// <summary>
+        /// Updates the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
         public abstract void Update(GameTime gameTime);
+
+        /// <summary>
+        /// Draws the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
         public abstract void Draw(GameTime gameTime);
+
+        #endregion
     }
 }

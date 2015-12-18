@@ -1,8 +1,11 @@
 ﻿using System;
 
-namespace SeraphimEngine.Exceptions {
+namespace SeraphimEngine.Exceptions
+{
     /// <summary>
     ///     Class ScriptNotRegisteredException.
     /// </summary>
-    public class ScriptCodeException : Exception {}
+    public class ScriptCodeException : Exception
+    {
+    }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace SeraphimEngine.Managers.Asset {
-
+namespace SeraphimEngine.Managers.Asset
+{
     /// <summary>
     /// Interface IAssetManager
     /// </summary>
-    public interface IAssetManager : IManager {
-
+    public interface IAssetManager : IManager
+    {
         /// <summary>
         /// Gets the object cache.
         /// </summary>

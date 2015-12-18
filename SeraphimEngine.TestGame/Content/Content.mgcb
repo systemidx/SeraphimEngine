@@ -30,3 +30,8 @@
 /processor:ScriptProcessor
 /build:Scripts/Scene/scene-test.csx
 
+#begin Scripts/Scene/second-scene-test.csx
+/importer:ScriptImporter
+/processor:ScriptProcessor
+/build:Scripts/Scene/second-scene-test.csx
+

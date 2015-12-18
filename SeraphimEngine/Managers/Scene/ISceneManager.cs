@@ -1,13 +1,15 @@
-﻿using MonoGame.Extended;
+﻿using System;
+using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using SeraphimEngine.Scene;
 
-namespace SeraphimEngine.Managers.Scene {
+namespace SeraphimEngine.Managers.Scene
+{
     /// <summary>
     /// Interface ISceneManager
     /// </summary>
-    public interface ISceneManager : IManager, IUpdate, IDraw {
-
+    public interface ISceneManager : IManager, IUpdate, IDraw
+    {
         /// <summary>
         /// Gets the viewport adapter.
         /// </summary>
@@ -23,7 +25,7 @@ namespace SeraphimEngine.Managers.Scene {
         /// <summary>
         /// Switches the scene.
         /// </summary>
-        /// <param name="sceneId">The scene identifier.</param>
-        void SwitchScene(string sceneId);
+        /// <param name="sceneType">Type of the scene.</param>
+        void SwitchScene(Type sceneType);
     }
 }

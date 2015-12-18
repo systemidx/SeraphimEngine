@@ -9,8 +9,8 @@ namespace SeraphimEngine.Managers.Asset
     /// <summary>
     /// Class AssetManager.
     /// </summary>
-    public class AssetManager : IAssetManager {
-
+    public class AssetManager : Manager<AssetManager>, IAssetManager
+    {
         #region Private Members
 
         /// <summary>
@@ -25,14 +25,38 @@ namespace SeraphimEngine.Managers.Asset
 
         #endregion
 
+        #region public Properties
+
+        /// <summary>
+        /// The in-memory cache for storing assets. These should not be added, removed, or cleared from the cache manually.
+        /// </summary>
+        /// <value>The object cache.</value>
         public IDictionary<string, object> ObjectCache { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
-        public TAssetType GetAsset<TAssetType>(string assetId) {
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is initialized.
+        /// </summary>
+        /// <value><c>true</c> if this instance is initialized; otherwise, <c>false</c>.</value>
+        public override bool IsInitialized { get; protected set; }
+
+        #endregion
+
+        #region Asset Methods
+
+        /// <summary>
+        /// Gets the asset from cache. If the asset is not in cache, it fetches it from the content handler.
+        /// </summary>
+        /// <typeparam name="TAssetType">The type of the t asset type.</typeparam>
+        /// <param name="assetId">The asset identifier.</param>
+        /// <returns>TAssetType.</returns>
+        /// <exception cref="AssetManagerInitializationException"></exception>
+        public TAssetType GetAsset<TAssetType>(string assetId)
+        {
             if (!IsInitialized)
                 throw new AssetManagerInitializationException();
 
             if (ObjectCache.ContainsKey(assetId))
-                return (TAssetType)ObjectCache[assetId];
+                return (TAssetType) ObjectCache[assetId];
 
             TAssetType asset = _content.Load<TAssetType>(assetId);
             ObjectCache.Add(assetId, asset);
@@ -40,17 +64,23 @@ namespace SeraphimEngine.Managers.Asset
             return asset;
         }
 
-        public static IAssetManager Instance = new Lazy<IAssetManager>(() => new AssetManager()).Value;
+        #endregion
 
+        #region Game Flow Methods
 
-        private AssetManager() { }
-        public bool IsInitialized { get; private set; } = false;
-
-        public void Initialize(ContentManager content, GraphicsDevice graphics) {
+        /// <summary>
+        /// Initializes the specified content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="graphics">The graphics.</param>
+        public override void Initialize(ContentManager content, GraphicsDevice graphics)
+        {
             _content = content;
             _graphics = graphics;
 
             IsInitialized = true;
         }
+
+        #endregion
     }
 }

@@ -6,14 +6,15 @@ using MonoGame.Extended.ViewportAdapters;
 using SeraphimEngine.Exceptions;
 using SeraphimEngine.Scene;
 
-namespace SeraphimEngine.Managers.Scene {
-
+namespace SeraphimEngine.Managers.Scene
+{
     /// <summary>
     /// Class SceneManager.
     /// </summary>
-    public class SceneManager : Manager<SceneManager>, ISceneManager {
-        
+    public class SceneManager : Manager<SceneManager>, ISceneManager
+    {
         #region Private Members
+
         /// <summary>
         /// The graphics device
         /// </summary>
@@ -23,6 +24,7 @@ namespace SeraphimEngine.Managers.Scene {
         /// The content manager
         /// </summary>
         private ContentManager _content;
+
         #endregion
 
         #region Properties
@@ -54,7 +56,8 @@ namespace SeraphimEngine.Managers.Scene {
         /// </summary>
         /// <param name="content">The content.</param>
         /// <param name="graphics">The graphics.</param>
-        public override void Initialize(ContentManager content, GraphicsDevice graphics) {
+        public override void Initialize(ContentManager content, GraphicsDevice graphics)
+        {
             _content = content;
             _graphics = graphics;
             ViewportAdapter = new BoxingViewportAdapter(_graphics, 1920, 1080);
@@ -64,27 +67,69 @@ namespace SeraphimEngine.Managers.Scene {
 
         #endregion
 
-        public void SwitchScene(string sceneId) {
+        #region Scene Methods
+
+        /// <summary>
+        /// Switches the scene.
+        /// </summary>
+        /// <param name="sceneId">The scene identifier.</param>
+        /// <exception cref="SceneManagerInitializationException"></exception>
+        public void SwitchScene(string sceneId)
+        {
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
-            //CurrentScene?.Exit();
-            //CurrentScene?.Script.OnEnter();
-            CurrentScene = LoadScene();
-            //CurrentScene.Script.OnExit();
+            CurrentScene?.Unload();
+            CurrentScene = LoadScene(null);
         }
 
-        private IScene LoadScene() {
+        /// <summary>
+        /// Switches the scene.
+        /// </summary>
+        /// <param name="sceneType">Type of the scene.</param>
+        /// <exception cref="SceneManagerInitializationException"></exception>
+        public void SwitchScene(Type sceneType)
+        {
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
-            IScene scene = new CustomScene(_graphics, ViewportAdapter);
-            scene.Load();
+            //Try to unload the current scene if it exists. If it doesn't, it's likely that we haven't init'd the initial scene yet
+            CurrentScene?.Unload();
 
+            //Set the new scene and run the load routine
+            CurrentScene = LoadScene(sceneType);
+        }
+
+        /// <summary>
+        /// Loads the scene.
+        /// </summary>
+        /// <returns>IScene.</returns>
+        /// <exception cref="SceneManagerInitializationException"></exception>
+        private IScene LoadScene(Type t)
+        {
+            if (!IsInitialized)
+                throw new SceneManagerInitializationException();
+
+            IScene scene = (IScene) Activator.CreateInstance(t, _graphics, ViewportAdapter);
+            if (scene == null)
+                throw new SceneInitializationException();
+
+            scene.Load();
             return scene;
         }
 
-        public void Update(GameTime gameTime) {
+        #endregion
+
+        #region Game Loop Methods
+
+        /// <summary>
+        /// Updates the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        /// <exception cref="SceneManagerInitializationException"></exception>
+        /// <exception cref="SceneInitializationException"></exception>
+        public void Update(GameTime gameTime)
+        {
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
@@ -94,7 +139,14 @@ namespace SeraphimEngine.Managers.Scene {
             CurrentScene.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime) {
+        /// <summary>
+        /// Draws the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        /// <exception cref="SceneManagerInitializationException"></exception>
+        /// <exception cref="SceneInitializationException"></exception>
+        public void Draw(GameTime gameTime)
+        {
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
@@ -103,5 +155,7 @@ namespace SeraphimEngine.Managers.Scene {
 
             CurrentScene.Draw(gameTime);
         }
+
+        #endregion
     }
 }

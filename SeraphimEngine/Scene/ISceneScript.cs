@@ -1,7 +1,12 @@
 ﻿using System;
 using SeraphimEngine.Script;
 
-namespace SeraphimEngine.Scene {
-    public interface ISceneScript : IScript {
+namespace SeraphimEngine.Scene
+{
+    /// <summary>
+    /// Interface ISceneScript
+    /// </summary>
+    public interface ISceneScript : IScript
+    {
     }
 }

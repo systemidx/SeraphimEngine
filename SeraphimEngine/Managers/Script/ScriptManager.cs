@@ -16,116 +16,185 @@ using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Scene;
 using SeraphimEngine.Script;
 
-namespace SeraphimEngine.Managers.Script {
-    public class ScriptManager : Manager<ScriptManager>, IScriptManager {
+namespace SeraphimEngine.Managers.Script
+{
+    /// <summary>
+    /// Class ScriptManager.
+    /// </summary>
+    public class ScriptManager : Manager<ScriptManager>, IScriptManager
+    {
+        #region Override Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is initialized.
+        /// </summary>
+        /// <value><c>true</c> if this instance is initialized; otherwise, <c>false</c>.</value>
         public override bool IsInitialized { get; protected set; }
 
-        private readonly HashSet<MetadataReference> _assemblies = new HashSet<MetadataReference>();
+        #endregion
 
+        #region Read Only Member Variables
+
+        /// <summary>
+        /// The scripts dictionary. This holds references to scripts which are already registered, compiled, and cached.
+        /// </summary>
         private readonly IDictionary<string, IScript> _scripts =
             new Dictionary<string, IScript>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
+        /// The script paths. This is a temporary measure to ensure correct pathing for loading scripts and for simplicity when registering them.
+        /// </summary>
+        //todo: Make this configuration based.
+        private readonly IDictionary<ScriptType, string> _scriptPaths = new Dictionary<ScriptType, string>
+        {
+            {ScriptType.Normal, "scripts/"},
+            {ScriptType.Scene, "scripts/scene/"},
+        };
+
+        /// <summary>
+        /// The assembly reference collection. This collection holds all of the metadata references used by the Roslyn compiler (which we are
+        /// choosing to expose)
+        /// </summary>
+        private readonly HashSet<MetadataReference> _assemblies = new HashSet<MetadataReference>();
+
+        /// <summary>
+        /// The  options which are used to compile the script code.
+        /// </summary>
+        private readonly CSharpCompilationOptions _compilationOptions =
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="ScriptManager" /> class.
         /// </summary>
-        public ScriptManager() {
+        public ScriptManager()
+        {
             SetAssemblies();
         }
-        
+
+        #endregion
+
+        #region Exposed Script Control Methods
+
         /// <summary>
-        ///     Starts the script.
+        /// Starts the script.
         /// </summary>
         /// <param name="scriptId">The script identifier.</param>
+        /// <param name="scriptType">Type of the script.</param>
         /// <exception cref="ScriptManagerInitializationException"></exception>
-        public void StartScript(string scriptId) {
+        public void StartScript(string scriptId, ScriptType scriptType = ScriptType.Normal)
+        {
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
 
-            if (!_scripts.ContainsKey(scriptId))
-                _scripts.Add(scriptId, CreateScript(scriptId));
+            string key = $"{_scriptPaths[scriptType]}{scriptId}";
 
-            Task.Run(() => _scripts[scriptId].Start());
+            if (!_scripts.ContainsKey(key))
+                _scripts.Add(key, CreateScript(key));
+
+            Task.Run(() => _scripts[key].Start());
         }
 
         /// <summary>
-        ///     Stops the script.
+        /// Stops the script.
         /// </summary>
         /// <param name="scriptId">The script identifier.</param>
-        public void StopScript(string scriptId) {
-            if (!_scripts.ContainsKey(scriptId))
+        /// <param name="scriptType">Type of the script.</param>
+        public void StopScript(string scriptId, ScriptType scriptType = ScriptType.Normal)
+        {
+            string key = $"{_scriptPaths[scriptType]}{scriptId}";
+
+            if (!_scripts.ContainsKey(key))
                 return;
-            
-            _scripts[scriptId].Stop();
+
+            _scripts[key].Stop();
         }
 
+        #endregion
+
+        #region Exposed Game Flow Methods
+
         /// <summary>
-        /// Initializes the specified content.
+        /// Initializes the script manager.
         /// </summary>
         /// <param name="content">The content.</param>
         /// <param name="graphics">The graphics.</param>
-        public override void Initialize(ContentManager content, GraphicsDevice graphics) {
+        public override void Initialize(ContentManager content, GraphicsDevice graphics)
+        {
             IsInitialized = true;
         }
 
         /// <summary>
-        /// Updates the specified game time.
+        /// Sends the update command to all active scripts
         /// </summary>
         /// <param name="gameTime">The game time.</param>
-        public void Update(GameTime gameTime) {
+        public void Update(GameTime gameTime)
+        {
             foreach (var script in _scripts.Where(x => x.Value.IsRunning))
                 script.Value.Update(gameTime);
         }
 
         /// <summary>
-        /// Draws the specified game time.
+        /// Sends the draw command to all active scripts
         /// </summary>
         /// <param name="gameTime">The game time.</param>
-        public void Draw(GameTime gameTime) {
+        public void Draw(GameTime gameTime)
+        {
             foreach (var script in _scripts.Where(x => x.Value.IsRunning))
                 script.Value.Draw(gameTime);
         }
+
+        #endregion
+
+        #region Compilation Methods
 
         /// <summary>
         ///     Sets the assemblies.
         /// </summary>
         /// <returns>AssemblyReferences.</returns>
-        private void SetAssemblies() {
+        private void SetAssemblies()
+        {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             _assemblies.Add(MetadataReference.CreateFromFile(typeof (object).Assembly.Location));
             _assemblies.Add(MetadataReference.CreateFromFile(typeof (Enumerable).Assembly.Location));
             _assemblies.Add(MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\SeraphimEngine.dll").Location));
-            _assemblies.Add(
-                MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\MonoGame.Extended.dll").Location));
-            _assemblies.Add(
-                MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\MonoGame.Framework.dll").Location));
+            _assemblies.Add(MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\MonoGame.Extended.dll").Location));
+            _assemblies.Add(MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\MonoGame.Framework.dll").Location));
         }
-        
+
         /// <summary>
         ///     Creates the script.
         /// </summary>
         /// <param name="scriptId">The script identifier.</param>
         /// <returns>CScript.</returns>
         /// <exception cref="SeraphimEngine.Exceptions.AssetManagerInitializationException"></exception>
-        private ISceneScript CreateScript(string scriptId) {
+        private ISceneScript CreateScript(string scriptId)
+        {
             if (!AssetManager.Instance.IsInitialized)
                 throw new AssetManagerInitializationException();
 
             SeraphimScript script = AssetManager.Instance.GetAsset<SeraphimScript>(scriptId);
             SyntaxTree[] syntaxTree = {CSharpSyntaxTree.ParseText(script.Code)};
-            CSharpCompilation compilation = CSharpCompilation.Create(Path.GetRandomFileName(), syntaxTree, _assemblies,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            CSharpCompilation compilation = CSharpCompilation.Create(Path.GetRandomFileName(), syntaxTree, _assemblies, _compilationOptions);
 
-            using (MemoryStream stream = new MemoryStream()) {
+            using (MemoryStream stream = new MemoryStream())
+            {
                 EmitResult result = compilation.Emit(stream);
 
-                if (!result.Success) {
+                if (!result.Success)
+                {
                     IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
                         diagnostic.IsWarningAsError ||
                         diagnostic.Severity == DiagnosticSeverity.Error);
 
+                    //todo: Figure out a better way to log these failures.
                     foreach (Diagnostic diagnostic in failures)
                         Console.Error.WriteLine("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+
                     throw new ScriptCodeException();
                 }
 
@@ -143,5 +212,7 @@ namespace SeraphimEngine.Managers.Script {
 
             throw new ScriptCodeException();
         }
+
+        #endregion
     }
 }
