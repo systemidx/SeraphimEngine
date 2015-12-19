@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Spritesheets/ui.png</SourceFile>
-  <SourceTime>2015-03-27T06:53:44.8417729-04:00</SourceTime>
-  <DestFile>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/bin/Spritesheets/ui.xnb</DestFile>
-  <DestTime>2015-12-16T15:12:53.730544-05:00</DestTime>
+  <SourceFile>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Spritesheets/ui.png</SourceFile>
+  <SourceTime>2015-12-16T21:08:34.0601004-05:00</SourceTime>
+  <DestFile>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/bin/Spritesheets/ui.xnb</DestFile>
+  <DestTime>2015-12-18T00:15:03.5461238-05:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2015-04-29T13:14:44-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

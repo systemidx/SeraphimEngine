@@ -125,6 +125,8 @@
     <Compile Include="Exceptions\ScriptManagerInitializationException.cs" />
     <Compile Include="Exceptions\ScriptCodeException.cs" />
     <Compile Include="Exceptions\ScriptNotRegisteredException.cs" />
+    <Compile Include="Helpers\Asset\TextureFadeDirection.cs" />
+    <Compile Include="Helpers\Asset\TextureFader.cs" />
     <Compile Include="Managers\Asset\AssetManager.cs" />
     <Compile Include="Managers\Asset\IAssetManager.cs" />
     <Compile Include="Managers\IManager.cs" />

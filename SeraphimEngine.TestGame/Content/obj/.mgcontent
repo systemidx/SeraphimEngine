@@ -4,6 +4,11 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Spritesheets/ui.png</File>
+    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Spritesheets/ui.png</File>
+    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/scene-test.csx</File>
+    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/second-scene-test.csx</File>
+    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Music/splash.mp3</File>
+    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/splash_waffletech.png</File>
+    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/splash_engine.png</File>
   </SourceFiles>
 </SourceFileCollection>

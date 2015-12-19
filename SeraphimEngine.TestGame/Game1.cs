@@ -20,7 +20,6 @@ namespace SeraphimEngine.TestGame
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
         }
 
         /// <summary>
@@ -31,18 +30,13 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void Initialize()
         {
+            //_graphics.IsFullScreen = true;
+            //_graphics.ApplyChanges();
+
             InputManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
             SceneManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
             AssetManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
             ScriptManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
-            
-            //ScriptRunner runner = new ScriptRunner();
-            //runner.RunScript("test");
-
-            _graphics.PreferredBackBufferWidth = 600;
-            _graphics.PreferredBackBufferHeight = 480;
-            //_graphics.IsFullScreen = true;
-            _graphics.ApplyChanges();
             
             base.Initialize();
         }
@@ -53,7 +47,7 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void LoadContent()
         {
-            SceneManager.Instance.SwitchScene(typeof(CustomScene));
+            SceneManager.Instance.SwitchScene(typeof(Splash));
         }
 
         /// <summary>
@@ -62,7 +56,6 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -88,11 +81,9 @@ namespace SeraphimEngine.TestGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            ScriptManager.Instance.Draw(gameTime);
             SceneManager.Instance.Draw(gameTime);
-
+            ScriptManager.Instance.Draw(gameTime);
+            
             base.Draw(gameTime);
         }
     }

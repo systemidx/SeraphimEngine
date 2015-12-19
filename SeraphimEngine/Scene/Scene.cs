@@ -19,6 +19,11 @@ namespace SeraphimEngine.Scene
         /// </summary>
         protected readonly SpriteBatch SpriteBatch;
 
+        /// <summary>
+        /// The graphics device
+        /// </summary>
+        protected readonly GraphicsDevice Graphics;
+
         #endregion
 
         #region Properties
@@ -41,6 +46,7 @@ namespace SeraphimEngine.Scene
         protected Scene(GraphicsDevice graphics, ViewportAdapter viewport)
         {
             SceneCamera = new Camera2D(viewport);
+            Graphics = graphics;
             SpriteBatch = new SpriteBatch(graphics);
         }
 
