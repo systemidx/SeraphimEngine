@@ -3,20 +3,20 @@
 namespace SeraphimEngine.Input
 {
     /// <summary>
-    /// Interface IInputAction
+    /// Interface IActionMapping
     /// </summary>
-    public interface IInputAction
+    public interface IActionMapping
     {
         /// <summary>
-        /// Gets the action key.
+        /// Gets the actionMapping key.
         /// </summary>
-        /// <value>The action key.</value>
+        /// <value>The actionMapping key.</value>
         Keys ActionKey { get; }
 
         /// <summary>
-        /// Gets the action button.
+        /// Gets the actionMapping button.
         /// </summary>
-        /// <value>The action button.</value>
+        /// <value>The actionMapping button.</value>
         Buttons ActionButton { get; } 
     }
 }

@@ -129,7 +129,8 @@
     <Compile Include="Helpers\Asset\TextureFadeDirection.cs" />
     <Compile Include="Helpers\Asset\TextureFader.cs" />
     <Compile Include="Input\ActionInputMethod.cs" />
-    <Compile Include="Input\IInputAction.cs" />
+    <Compile Include="Input\IActionMapping.cs" />
+    <Compile Include="Input\ActionMapping.cs" />
     <Compile Include="Input\InputAction.cs" />
     <Compile Include="Managers\Asset\AssetManager.cs" />
     <Compile Include="Managers\Asset\IAssetManager.cs" />

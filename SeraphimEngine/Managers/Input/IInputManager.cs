@@ -9,34 +9,24 @@ namespace SeraphimEngine.Managers.Input
     /// </summary>
     public interface IInputManager : IUpdate
     {
+        /// <summary>
+        /// Gets the input method.
+        /// </summary>
+        /// <value>The input method.</value>
         ActionInputMethod InputMethod { get; }
 
         /// <summary>
-        /// Determines whether a specified key is held down.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns><c>true</c> if [is key down] [the specified key]; otherwise, <c>false</c>.</returns>
-        bool IsKeyDown(Keys key);
-
-        /// <summary>
-        /// Determines whether [is key held] [the specified key].
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns><c>true</c> if [is key held] [the specified key]; otherwise, <c>false</c>.</returns>
-        bool IsKeyHeld(Keys key);
-
-        /// <summary>
-        /// Determines whether [is action down] [the specified action].
+        /// Determines whether [is actionMapping down] [the specified actionMapping].
         /// </summary>
         /// <param name="action">The action.</param>
-        /// <returns><c>true</c> if [is action down] [the specified action]; otherwise, <c>false</c>.</returns>
-        bool IsActionDown(IInputAction action);
+        /// <returns><c>true</c> if [is actionMapping down] [the specified actionMapping]; otherwise, <c>false</c>.</returns>
+        bool IsActionDown(InputAction action);
 
         /// <summary>
-        /// Determines whether [is action held] [the specified action].
+        /// Determines whether [is actionMapping held] [the specified actionMapping].
         /// </summary>
         /// <param name="action">The action.</param>
-        /// <returns><c>true</c> if [is action held] [the specified action]; otherwise, <c>false</c>.</returns>
-        bool IsActionHeld(IInputAction action);
+        /// <returns><c>true</c> if [is actionMapping held] [the specified actionMapping]; otherwise, <c>false</c>.</returns>
+        bool IsActionHeld(InputAction action);
     }
 }
