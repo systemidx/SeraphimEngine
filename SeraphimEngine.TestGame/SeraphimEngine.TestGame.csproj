@@ -48,7 +48,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenes\SecondCustomScene.cs" />
+    <Compile Include="Scenes\MainMenu.cs" />
     <Compile Include="Scenes\Splash.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,7 +63,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Music\splash.mp3" />
     <Content Include="Content\Spritesheets\ui.png" />
+    <Content Include="Content\Textures\mainmenu_background.png" />
+    <Content Include="Content\Textures\splash_engine.png" />
+    <Content Include="Content\Textures\splash_waffletech.png" />
     <Content Include="Icon.ico" />
     <Content Include="Textures\splash_poweredby.png" />
     <Content Include="Textures\splash_waffletech.png" />
@@ -83,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Content\Scripts\Scene\scene-main-menu-exit.csx" />
+    <None Include="Content\Scripts\Scene\scene-main-menu-start.csx" />
     <None Include="Content\Scripts\Scene\second-scene-test.csx" />
     <None Include="Content\Scripts\Scene\scene-test.csx" />
     <None Include="packages.config" />

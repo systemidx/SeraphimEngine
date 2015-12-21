@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.ViewportAdapters;
 using SeraphimEngine.Helpers.Asset;
 using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
 
@@ -41,14 +42,7 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.Instance.IsKeyDown(Keys.F12))
-            {
-                Unload();
-                SceneManager.Instance.SwitchScene(typeof (SecondCustomScene));
-            }
-
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (MediaPlayer.PlayPosition.TotalSeconds == 0.0)
+            if (MediaPlayer.State == MediaState.Stopped)
                 MediaPlayer.Play(_splashBg);
 
             if (_studioScreenPlaying)
@@ -80,23 +74,17 @@ namespace SeraphimEngine.TestGame.Scenes
                     return;
                 }
 
-                SceneManager.Instance.SwitchScene(typeof(SecondCustomScene));
+                SceneManager.Instance.SwitchScene(typeof(MainMenu));
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            Graphics.Clear(Color.Black);
-
-            SpriteBatch.Begin(transformMatrix: SceneCamera.GetViewMatrix());
-
             if (_studioScreenPlaying)
-                SpriteBatch.Draw(_studioTexture, Vector2.Zero, Color.White* _studioFader.FadeAlpha);
-
+                GameManager.Instance.SpriteBatch.Draw(_studioTexture, Vector2.Zero, Color.White * _studioFader.FadeAlpha);
+            
             if (_poweredByScreenPlaying)
-                SpriteBatch.Draw(_poweredByTexture, Vector2.Zero, Color.White * _poweredByFader.FadeAlpha);
-
-            SpriteBatch.End();
+                GameManager.Instance.SpriteBatch.Draw(_poweredByTexture, Vector2.Zero, Color.White * _poweredByFader.FadeAlpha);
         }
     }
 }

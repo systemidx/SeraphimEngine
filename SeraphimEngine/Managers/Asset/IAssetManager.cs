@@ -20,5 +20,11 @@ namespace SeraphimEngine.Managers.Asset
         /// <param name="assetId">The asset identifier.</param>
         /// <returns>TAssetType.</returns>
         TAssetType GetAsset<TAssetType>(string assetId);
+
+        /// <summary>
+        /// Unloads the asset.
+        /// </summary>
+        /// <param name="assetId">The asset identifier.</param>
+        void UnloadAsset(string assetId);
     }
 }

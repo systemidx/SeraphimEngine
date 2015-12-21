@@ -122,13 +122,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\GuiException.cs" />
     <Compile Include="Exceptions\ScriptManagerInitializationException.cs" />
     <Compile Include="Exceptions\ScriptCodeException.cs" />
     <Compile Include="Exceptions\ScriptNotRegisteredException.cs" />
     <Compile Include="Helpers\Asset\TextureFadeDirection.cs" />
     <Compile Include="Helpers\Asset\TextureFader.cs" />
+    <Compile Include="Input\ActionInputMethod.cs" />
+    <Compile Include="Input\IInputAction.cs" />
+    <Compile Include="Input\InputAction.cs" />
     <Compile Include="Managers\Asset\AssetManager.cs" />
     <Compile Include="Managers\Asset\IAssetManager.cs" />
+    <Compile Include="Managers\Game\GameManager.cs" />
+    <Compile Include="Managers\Game\IGameManager.cs" />
     <Compile Include="Managers\IManager.cs" />
     <Compile Include="Managers\Input\IInputManager.cs" />
     <Compile Include="Managers\Input\InputManager.cs" />
@@ -136,6 +142,9 @@
     <Compile Include="Managers\Script\IScriptManager.cs" />
     <Compile Include="Managers\Script\ScriptManager.cs" />
     <Compile Include="Managers\Script\ScriptType.cs" />
+    <Compile Include="Scene\Gui\IMenu.cs" />
+    <Compile Include="Scene\Gui\Menu.cs" />
+    <Compile Include="Scene\Gui\MenuChoice.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Managers\Scene\ISceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

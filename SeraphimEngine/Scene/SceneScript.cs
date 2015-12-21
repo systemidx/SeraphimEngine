@@ -14,11 +14,19 @@ namespace SeraphimEngine.Scene
         public bool IsRunning { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether [run once].
+        /// </summary>
+        /// <value><c>true</c> if [run once]; otherwise, <c>false</c>.</value>
+        public bool RunOnce { get; private set; }
+
+        /// <summary>
         /// Starts this instance.
         /// </summary>
-        public void Start()
+        /// <param name="runOnce">if set to <c>true</c> [run once].</param>
+        public void Start(bool runOnce = false)
         {
             IsRunning = true;
+            RunOnce = runOnce;
         }
 
         /// <summary>
@@ -33,7 +41,11 @@ namespace SeraphimEngine.Scene
         /// Updates the specified game time.
         /// </summary>
         /// <param name="gameTime">The game time.</param>
-        public abstract void Update(GameTime gameTime);
+        public virtual void Update(GameTime gameTime)
+        {
+            if (RunOnce)
+                Stop();
+        }
 
         /// <summary>
         /// Draws the specified game time.

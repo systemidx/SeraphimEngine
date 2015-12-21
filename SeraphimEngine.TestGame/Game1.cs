@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SeraphimEngine.Managers;
+﻿using System;
+using Microsoft.Xna.Framework;
 using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.Managers.Script;
@@ -30,14 +29,8 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void Initialize()
         {
-            //_graphics.IsFullScreen = true;
-            //_graphics.ApplyChanges();
+            GameManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
 
-            InputManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
-            SceneManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
-            AssetManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
-            ScriptManager.Instance.Initialize(Content, _graphics.GraphicsDevice);
-            
             base.Initialize();
         }
 
@@ -47,7 +40,7 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void LoadContent()
         {
-            SceneManager.Instance.SwitchScene(typeof(Splash));
+            SceneManager.Instance.SwitchScene(typeof(MainMenu));
         }
 
         /// <summary>
@@ -65,8 +58,14 @@ namespace SeraphimEngine.TestGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (GameManager.Instance.ShouldExit) {
+                try
+                {
+                    Exit();
+                }
+                //hack: This is necessary due to a bug in SharpDX in which Exit() causes a null ref exception upon unloading
+                catch(NullReferenceException) { }
+            }
 
             InputManager.Instance.Update(gameTime);
             ScriptManager.Instance.Update(gameTime);
@@ -81,9 +80,12 @@ namespace SeraphimEngine.TestGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            GameManager.Instance.StartDrawing();
+
             SceneManager.Instance.Draw(gameTime);
             ScriptManager.Instance.Draw(gameTime);
-            
+
+            GameManager.Instance.StopDrawing();
             base.Draw(gameTime);
         }
     }

@@ -13,12 +13,7 @@ namespace SeraphimEngine.Scene
     public abstract class Scene : IScene
     {
         #region Member Variables
-
-        /// <summary>
-        /// The sprite batch
-        /// </summary>
-        protected readonly SpriteBatch SpriteBatch;
-
+        
         /// <summary>
         /// The graphics device
         /// </summary>
@@ -47,7 +42,6 @@ namespace SeraphimEngine.Scene
         {
             SceneCamera = new Camera2D(viewport);
             Graphics = graphics;
-            SpriteBatch = new SpriteBatch(graphics);
         }
 
         #endregion

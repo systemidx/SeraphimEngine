@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
+using Moq;
 using SeraphimEngine.Helpers.Asset;
 
 namespace SeraphimEngine.Tests.Helpers.Asset
@@ -31,25 +32,41 @@ namespace SeraphimEngine.Tests.Helpers.Asset
         }
 
         [TestMethod]
-        public void UpdateWhileDoneFadingDoesNotChangeAlpha()
+        public void UpdateWhileDoneFadingDoesNotChangeAlphaWithFadeIn()
         {
             TextureFader fader = new TextureFader();
             DateTime startTime = DateTime.Now;
-
-            GameTime gameTime = new GameTime(TimeSpan.MaxValue, DateTime.Now - startTime);
             
-            while ((DateTime.Now - startTime).TotalSeconds < 2)
+            float previousAlpha = 0.0f;
+            while (!fader.DoneFading)
             {
-                float previousAlpha = fader.FadeAlpha;
+                GameTime gameTime = new GameTime(TimeSpan.MaxValue, DateTime.Now - startTime);
+                
                 fader.Update(gameTime);
-                if (fader.DoneFading)
-                {
-                    Assert.AreEqual(previousAlpha, fader.FadeAlpha);
-                    return;
-                }
-
-                gameTime = new GameTime(TimeSpan.MaxValue, DateTime.Now - startTime);
+                previousAlpha = fader.FadeAlpha;
             }
+
+            Assert.AreEqual(previousAlpha, fader.FadeAlpha);
+            Assert.AreEqual(previousAlpha, 1.0f);
+        }
+
+        [TestMethod]
+        public void UpdateWhileDoneFadingDoesNotChangeAlphaWithFadeOut()
+        {
+            TextureFader fader = new TextureFader(fadeDirection: TextureFadeDirection.Out);
+            DateTime startTime = DateTime.Now;
+
+            float previousAlpha = 0.0f;
+            while (!fader.DoneFading)
+            {
+                GameTime gameTime = new GameTime(TimeSpan.MaxValue, DateTime.Now - startTime);
+
+                fader.Update(gameTime);
+                previousAlpha = fader.FadeAlpha;
+            }
+
+            Assert.AreEqual(previousAlpha, fader.FadeAlpha);
+            Assert.AreEqual(previousAlpha, 0.0f);
         }
     }
 }

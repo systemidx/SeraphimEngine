@@ -64,6 +64,19 @@ namespace SeraphimEngine.Managers.Asset
             return asset;
         }
 
+        /// <summary>
+        /// Unloads the asset.
+        /// </summary>
+        /// <param name="assetId">The asset identifier.</param>
+        public void UnloadAsset(string assetId)
+        {
+            if (!IsInitialized)
+                throw new AssetManagerInitializationException();
+
+            if (ObjectCache.ContainsKey(assetId))
+                ObjectCache.Remove(assetId);
+        }
+
         #endregion
 
         #region Game Flow Methods

@@ -64,19 +64,7 @@ namespace SeraphimEngine.Managers.Script
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
         #endregion
-
-        #region Constructor
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ScriptManager" /> class.
-        /// </summary>
-        public ScriptManager()
-        {
-            SetAssemblies();
-        }
-
-        #endregion
-
+        
         #region Exposed Script Control Methods
 
         /// <summary>
@@ -84,18 +72,19 @@ namespace SeraphimEngine.Managers.Script
         /// </summary>
         /// <param name="scriptId">The script identifier.</param>
         /// <param name="scriptType">Type of the script.</param>
+        /// <param name="runOnce">if set to <c>true</c> [run once].</param>
         /// <exception cref="ScriptManagerInitializationException"></exception>
-        public void StartScript(string scriptId, ScriptType scriptType = ScriptType.Normal)
+        public void StartScript(string scriptId, ScriptType scriptType = ScriptType.Normal, bool runOnce = false)
         {
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
 
-            string key = $"{_scriptPaths[scriptType]}{scriptId}";
+            string key = GetKey(scriptId, scriptType);
 
             if (!_scripts.ContainsKey(key))
                 _scripts.Add(key, CreateScript(key));
-
-            Task.Run(() => _scripts[key].Start());
+            
+            Task.Run(() => _scripts[key].Start(runOnce));
         }
 
         /// <summary>
@@ -105,7 +94,10 @@ namespace SeraphimEngine.Managers.Script
         /// <param name="scriptType">Type of the script.</param>
         public void StopScript(string scriptId, ScriptType scriptType = ScriptType.Normal)
         {
-            string key = $"{_scriptPaths[scriptType]}{scriptId}";
+            if (!IsInitialized)
+                throw new ScriptManagerInitializationException();
+
+            string key = GetKey(scriptId, scriptType);
 
             if (!_scripts.ContainsKey(key))
                 return;
@@ -113,17 +105,44 @@ namespace SeraphimEngine.Managers.Script
             _scripts[key].Stop();
         }
 
+        /// <summary>
+        /// Determines whether the specified script identifier is running.
+        /// </summary>
+        /// <param name="scriptId">The script identifier.</param>
+        /// <param name="scriptType">Type of the script.</param>
+        /// <returns><c>true</c> if the specified script identifier is running; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ScriptManagerInitializationException"></exception>
+        public bool IsRunning(string scriptId, ScriptType scriptType)
+        {
+            if (!IsInitialized)
+                throw new ScriptManagerInitializationException();
+
+            string key = GetKey(scriptId, scriptType);
+            return _scripts.ContainsKey(key) && _scripts[key].IsRunning;
+        }
+
+        /// <summary>
+        /// Gets the key.
+        /// </summary>
+        /// <param name="scriptId">The script identifier.</param>
+        /// <param name="scriptType">Type of the script.</param>
+        /// <returns>System.String.</returns>
+        private string GetKey(string scriptId, ScriptType scriptType)
+        {
+            return $"{_scriptPaths[scriptType]}{scriptId}";
+        }
         #endregion
 
         #region Exposed Game Flow Methods
-
+        
         /// <summary>
-        /// Initializes the script manager.
+        /// Initializes the specified content.
         /// </summary>
         /// <param name="content">The content.</param>
         /// <param name="graphics">The graphics.</param>
         public override void Initialize(ContentManager content, GraphicsDevice graphics)
         {
+            SetAssemblies();
             IsInitialized = true;
         }
 
@@ -152,8 +171,9 @@ namespace SeraphimEngine.Managers.Script
         #region Compilation Methods
 
         /// <summary>
-        ///     Sets the assemblies.
+        /// Sets the assemblies.
         /// </summary>
+        /// <param name="gameAssembly">The game assembly.</param>
         /// <returns>AssemblyReferences.</returns>
         private void SetAssemblies()
         {
@@ -161,6 +181,7 @@ namespace SeraphimEngine.Managers.Script
 
             _assemblies.Add(MetadataReference.CreateFromFile(typeof (object).Assembly.Location));
             _assemblies.Add(MetadataReference.CreateFromFile(typeof (Enumerable).Assembly.Location));
+            _assemblies.Add(MetadataReference.CreateFromFile(Assembly.GetEntryAssembly().Location));
             _assemblies.Add(MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\SeraphimEngine.dll").Location));
             _assemblies.Add(MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\MonoGame.Extended.dll").Location));
             _assemblies.Add(MetadataReference.CreateFromFile(Assembly.LoadFile($"{path}\\MonoGame.Framework.dll").Location));

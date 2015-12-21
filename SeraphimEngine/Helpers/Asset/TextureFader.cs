@@ -74,9 +74,17 @@ namespace SeraphimEngine.Helpers.Asset
             if (DoneFading)
                 return;
 
-            if (FadeAlpha > 1 || FadeAlpha < 0)
+            if (FadeAlpha > 1)
             {
                 DoneFading = true;
+                FadeAlpha = 1.0f;
+                return;
+            }
+
+            if (FadeAlpha < 0)
+            {
+                DoneFading = true;
+                FadeAlpha = 0.0f;
                 return;
             }
 

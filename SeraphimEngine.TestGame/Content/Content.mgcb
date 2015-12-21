@@ -63,3 +63,24 @@
 /processorParam:TextureFormat=Color
 /build:Textures/splash_engine.png
 
+#begin Scripts/Scene/scene-main-menu-start.csx
+/importer:ScriptImporter
+/processor:ScriptProcessor
+/build:Scripts/Scene/scene-main-menu-start.csx
+
+#begin Scripts/Scene/scene-main-menu-exit.csx
+/importer:ScriptImporter
+/processor:ScriptProcessor
+/build:Scripts/Scene/scene-main-menu-exit.csx
+
+#begin Textures/mainmenu_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/mainmenu_background.png
+
