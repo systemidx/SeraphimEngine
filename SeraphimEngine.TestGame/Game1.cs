@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
@@ -40,7 +39,7 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void LoadContent()
         {
-            SceneManager.Instance.SwitchScene(typeof(MainMenu));
+            SceneManager.Instance.SwitchScene(typeof(Splash));
         }
 
         /// <summary>
@@ -86,6 +85,7 @@ namespace SeraphimEngine.TestGame
             ScriptManager.Instance.Draw(gameTime);
 
             GameManager.Instance.StopDrawing();
+
             base.Draw(gameTime);
         }
     }

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SeraphimEngine.Input;
+using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Script;
 
@@ -8,6 +11,9 @@ namespace SeraphimEngine.Scene.Gui
 {
     public class Menu : IMenu
     {
+        private SpriteFont _font;
+        private Texture2D _cursor;
+
         private readonly IList<MenuChoice> _choices = new List<MenuChoice>();
         private int _maxIndex;
         private int _index = 0;
@@ -19,6 +25,12 @@ namespace SeraphimEngine.Scene.Gui
 
         public void Draw(GameTime gameTime)
         {
+            for (int i = 0; i < _choices.Count; ++i)
+            {
+                Vector2 position = new Vector2(0, i * _font.MeasureString(_choices[i].Text).Y);
+
+                GameManager.Instance.SpriteBatch.DrawString(_font, _choices[i].Text, position, Color.White);
+            }
         }
 
         /// <summary>
@@ -45,6 +57,9 @@ namespace SeraphimEngine.Scene.Gui
 
         public void Initialize(params MenuChoice[] choices)
         {
+            _font = AssetManager.Instance.GetAsset<SpriteFont>("fonts/default");
+            _cursor = AssetManager.Instance.GetAsset<Texture2D>("textures/cursor");
+            
             foreach (MenuChoice choice in choices)
                 _choices.Add(choice);
 
