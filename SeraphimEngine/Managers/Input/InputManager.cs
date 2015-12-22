@@ -20,14 +20,38 @@ namespace SeraphimEngine.Managers.Input
         /// The input maps
         /// </summary>
         //todo: Make this configuration driven
-        private readonly IDictionary<InputAction, ActionMapping> _maps = new Dictionary<InputAction, ActionMapping>
+        private readonly IDictionary<InputAction, ActionMapping[]> _maps = new Dictionary<InputAction, ActionMapping[]>
         {
-            {InputAction.Accept, new ActionMapping(Keys.Enter, Buttons.A)},
-            {InputAction.Cancel, new ActionMapping(Keys.Escape, Buttons.B)},
-            {InputAction.Down, new ActionMapping(Keys.S, Buttons.DPadDown)},
-            {InputAction.Up, new ActionMapping(Keys.W, Buttons.DPadUp)},
-            {InputAction.Left, new ActionMapping(Keys.A, Buttons.DPadLeft)},
-            {InputAction.Right, new ActionMapping(Keys.D, Buttons.DPadRight)}
+            {InputAction.Accept, new[] {new ActionMapping(Keys.Enter, Buttons.A)}},
+            {InputAction.Cancel, new[] {new ActionMapping(Keys.Escape, Buttons.B)}},
+            {
+                InputAction.Down, new[]
+                {
+                    new ActionMapping(Keys.S, Buttons.DPadDown),
+                    new ActionMapping(Keys.Down, Buttons.LeftThumbstickDown)
+                }
+            },
+            {
+                InputAction.Up, new[]
+                {
+                    new ActionMapping(Keys.W, Buttons.DPadUp),
+                    new ActionMapping(Keys.Up, Buttons.LeftThumbstickUp)
+                }
+            },
+            {
+                InputAction.Left, new[]
+                {
+                    new ActionMapping(Keys.A, Buttons.DPadLeft),
+                    new ActionMapping(Keys.Left, Buttons.LeftThumbstickLeft)
+                }
+            },
+            {
+                InputAction.Right, new[]
+                {
+                    new ActionMapping(Keys.D, Buttons.DPadRight),
+                    new ActionMapping(Keys.Right, Buttons.LeftThumbstickRight)
+                }
+            }
         };
 
         /// <summary>
@@ -125,12 +149,12 @@ namespace SeraphimEngine.Managers.Input
                         foreach (Keys k in currentKeys)
                         {
                             InputAction[] currentActions =
-                                _maps.Where(x => x.Value.ActionKey == k).Select(y => y.Key).ToArray();
+                                _maps.Where(x => x.Value.Any(y => y.ActionKey == k)).Select(v => v.Key).ToArray();
                             foreach (InputAction action in currentActions)
                                 _keysDown.Add(action);
                         }
 
-                        break;
+                        return;
 
                     case ActionInputMethod.Controller:
                         IEnumerable<Buttons> currentButtons = GetPressedButtons();
@@ -138,12 +162,12 @@ namespace SeraphimEngine.Managers.Input
                         foreach (Buttons b in currentButtons)
                         {
                             InputAction[] currentActions =
-                                _maps.Where(x => x.Value.ActionButton == b).Select(y => y.Key).ToArray();
+                                _maps.Where(x => x.Value.Any(y => y.ActionButton == b)).Select(y => y.Key).ToArray();
                             foreach (InputAction action in currentActions)
                                 _keysDown.Add(action);
                         }
 
-                        break;
+                        return;
                 }
             }
 

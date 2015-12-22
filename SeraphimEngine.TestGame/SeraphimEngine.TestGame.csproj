@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Music\splash.mp3" />
+    <Content Include="Content\Sounds\rollover.mp3" />
+    <Content Include="Content\Sounds\select.mp3" />
     <Content Include="Content\Spritesheets\ui.png" />
     <Content Include="Content\Textures\cursor.png" />
     <Content Include="Content\Textures\mainmenu_background.png" />

@@ -101,3 +101,15 @@
 /processorParam:TextureFormat=Color
 /build:Textures/cursor.png
 
+#begin Sounds/rollover.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/rollover.mp3
+
+#begin Sounds/select.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/select.mp3
+
