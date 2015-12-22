@@ -23,7 +23,11 @@ namespace SeraphimEngine.Managers.Input
         private readonly IDictionary<InputAction, ActionMapping> _maps = new Dictionary<InputAction, ActionMapping>
         {
             {InputAction.Accept, new ActionMapping(Keys.Enter, Buttons.A)},
-            {InputAction.Cancel, new ActionMapping(Keys.Escape, Buttons.B)}
+            {InputAction.Cancel, new ActionMapping(Keys.Escape, Buttons.B)},
+            {InputAction.Down, new ActionMapping(Keys.S, Buttons.DPadDown)},
+            {InputAction.Up, new ActionMapping(Keys.W, Buttons.DPadUp)},
+            {InputAction.Left, new ActionMapping(Keys.A, Buttons.DPadLeft)},
+            {InputAction.Right, new ActionMapping(Keys.D, Buttons.DPadRight)}
         };
 
         /// <summary>

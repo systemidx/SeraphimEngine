@@ -40,10 +40,9 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            //SpriteBatch.Begin(transformMatrix: SceneCamera.GetViewMatrix());
             GameManager.Instance.SpriteBatch.Draw(_textureBackground, Vector2.Zero, Color.White);
+
             _menu.Draw(gameTime);
-            //SpriteBatch.End();
         }
     }
 }

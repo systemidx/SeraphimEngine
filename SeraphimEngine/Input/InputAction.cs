@@ -3,6 +3,10 @@
     public enum InputAction
     {
         Accept,
-        Cancel
+        Cancel,
+        Up,
+        Down,
+        Left,
+        Right
     }
 }
