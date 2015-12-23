@@ -14,7 +14,7 @@ public class Scene_Test : SceneScript
     {
     }
 
-    public override void Start(bool runOnce)
+    public override void Start(bool runOnce = false)
     {
         Console.WriteLine("Starting");
         SceneManager.Instance.CurrentScene.RegisterMenu(

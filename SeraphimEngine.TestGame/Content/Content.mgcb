@@ -31,15 +31,15 @@
 /processorParam:Quality=Best
 /build:Music/splash.mp3
 
-#begin Scripts/Scene/scene-start-menu-start.csx
+#begin Scripts/Scene/scene-start-menu-start.cs
 /importer:ScriptImporter
 /processor:ScriptProcessor
-/build:Scripts/Scene/scene-start-menu-start.csx
+/build:Scripts/Scene/scene-start-menu-start.cs
 
-#begin Scripts/Scene/scene-start-menu-exit.csx
+#begin Scripts/Scene/scene-start-menu-exit.cs
 /importer:ScriptImporter
 /processor:ScriptProcessor
-/build:Scripts/Scene/scene-start-menu-exit.csx
+/build:Scripts/Scene/scene-start-menu-exit.cs
 
 #begin Sounds/rollover.mp3
 /importer:Mp3Importer
@@ -114,8 +114,8 @@
 /processorParam:TextureFormat=Color
 /build:Fonts/Default.spritefont
 
-#begin Scripts/Scene/scene-test.csx
+#begin Scripts/Scene/scene-test.cs
 /importer:ScriptImporter
 /processor:ScriptProcessor
-/build:Scripts/Scene/scene-test.csx
+/build:Scripts/Scene/scene-test.cs
 

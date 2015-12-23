@@ -91,9 +91,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Content\Fonts\Default.spritefont" />
-    <None Include="Content\Scripts\Scene\scene-test.csx" />
-    <None Include="Content\Scripts\Scene\scene-start-menu-exit.csx" />
-    <None Include="Content\Scripts\Scene\scene-start-menu-start.csx" />
+    <Compile Include="Content\Scripts\Scene\scene-test.cs" />
+    <Compile Include="Content\Scripts\Scene\scene-start-menu-exit.cs" />
+    <Compile Include="Content\Scripts\Scene\scene-start-menu-start.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
