@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SeraphimEngine.Exceptions;
@@ -55,6 +57,8 @@ namespace SeraphimEngine.Managers.Asset
             if (!IsInitialized)
                 throw new AssetManagerInitializationException();
 
+            assetId = assetId.Replace("Content/","");
+
             if (ObjectCache.ContainsKey(assetId))
                 return (TAssetType) ObjectCache[assetId];
 
@@ -62,6 +66,23 @@ namespace SeraphimEngine.Managers.Asset
             ObjectCache.Add(assetId, asset);
 
             return asset;
+        }
+
+        /// <summary>
+        /// Gets all assets.
+        /// </summary>
+        /// <typeparam name="TAssetType">The type of the t asset type.</typeparam>
+        /// <param name="assetDirectory">The asset directory.</param>
+        /// <returns>TAssetType[].</returns>
+        /// <exception cref="AssetManagerInitializationException"></exception>
+        public TAssetType[] GetAllAssets<TAssetType>(string assetDirectory)
+        {
+            if (!IsInitialized)
+                throw new AssetManagerInitializationException();
+
+            FileInfo[] files = new DirectoryInfo(assetDirectory).GetFiles();
+            List<TAssetType> assets = files.Select(f => GetAsset<TAssetType>($"{assetDirectory}/{Path.GetFileNameWithoutExtension(f.Name)}")).ToList();
+            return assets.ToArray();
         }
 
         /// <summary>

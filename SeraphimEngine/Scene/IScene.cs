@@ -1,5 +1,6 @@
 ﻿using System;
 using MonoGame.Extended;
+using SeraphimEngine.Scene.Gui;
 
 namespace SeraphimEngine.Scene
 {
@@ -23,5 +24,17 @@ namespace SeraphimEngine.Scene
         /// Unloads this instance.
         /// </summary>
         void Unload();
+
+        /// <summary>
+        /// Registers the menu.
+        /// </summary>
+        /// <param name="menu">The menu.</param>
+        void RegisterMenu(IMenu menu);
+
+        /// <summary>
+        /// Unloads the menu.
+        /// </summary>
+        /// <param name="menuId">The menu identifier.</param>
+        void UnloadMenu(string menuId);
     }
 }

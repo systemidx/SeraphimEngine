@@ -18,6 +18,15 @@ namespace SeraphimEngine.TestGame
         public Game1() {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+#if DEBUG
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
+#else
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.ApplyChanges();
+#endif
         }
 
         /// <summary>
@@ -39,7 +48,11 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void LoadContent()
         {
+#if DEBUG
+            SceneManager.Instance.SwitchScene(typeof(Test));
+#else
             SceneManager.Instance.SwitchScene(typeof(Splash));
+#endif
         }
 
         /// <summary>
@@ -70,6 +83,11 @@ namespace SeraphimEngine.TestGame
             ScriptManager.Instance.Update(gameTime);
             SceneManager.Instance.Update(gameTime);
 
+            if (InputManager.Instance.IsActionDown(Input.InputAction.Cancel))
+            {
+                _graphics.IsFullScreen = true;
+                _graphics.ApplyChanges();
+            }
             base.Update(gameTime);
         }
 

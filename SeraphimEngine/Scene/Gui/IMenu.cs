@@ -4,6 +4,8 @@ namespace SeraphimEngine.Scene.Gui
 {
     public interface IMenu : IDraw, IUpdate
     {
-        void Initialize(params MenuChoice[] choices);
+        string Id { get; }
+        bool IsVisible { get; set; }
+        void Initialize();
     }
 }

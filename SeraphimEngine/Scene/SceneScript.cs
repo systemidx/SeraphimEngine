@@ -23,7 +23,7 @@ namespace SeraphimEngine.Scene
         /// Starts this instance.
         /// </summary>
         /// <param name="runOnce">if set to <c>true</c> [run once].</param>
-        public void Start(bool runOnce = false)
+        public virtual void Start(bool runOnce = false)
         {
             IsRunning = true;
             RunOnce = runOnce;

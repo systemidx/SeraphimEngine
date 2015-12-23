@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -78,13 +79,9 @@ namespace SeraphimEngine.Managers.Script
         {
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
-
-            string key = GetKey(scriptId, scriptType);
-
-            if (!_scripts.ContainsKey(key))
-                _scripts.Add(key, CreateScript(key));
             
-            Task.Run(() => _scripts[key].Start(runOnce));
+            if (_scripts.ContainsKey(scriptId))
+                Task.Run(() => _scripts[scriptId].Start(runOnce));
         }
 
         /// <summary>
@@ -96,13 +93,11 @@ namespace SeraphimEngine.Managers.Script
         {
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
-
-            string key = GetKey(scriptId, scriptType);
-
-            if (!_scripts.ContainsKey(key))
+            
+            if (!_scripts.ContainsKey(scriptId))
                 return;
 
-            _scripts[key].Stop();
+            _scripts[scriptId].Stop();
         }
 
         /// <summary>
@@ -116,21 +111,10 @@ namespace SeraphimEngine.Managers.Script
         {
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
-
-            string key = GetKey(scriptId, scriptType);
-            return _scripts.ContainsKey(key) && _scripts[key].IsRunning;
+            
+            return _scripts.ContainsKey(scriptId) && _scripts[scriptId].IsRunning;
         }
-
-        /// <summary>
-        /// Gets the key.
-        /// </summary>
-        /// <param name="scriptId">The script identifier.</param>
-        /// <param name="scriptType">Type of the script.</param>
-        /// <returns>System.String.</returns>
-        private string GetKey(string scriptId, ScriptType scriptType)
-        {
-            return $"{_scriptPaths[scriptType]}{scriptId}";
-        }
+        
         #endregion
 
         #region Exposed Game Flow Methods
@@ -143,7 +127,22 @@ namespace SeraphimEngine.Managers.Script
         public override void Initialize(ContentManager content, GraphicsDevice graphics)
         {
             SetAssemblies();
+            PreloadScripts();
             IsInitialized = true;
+        }
+
+        /// <summary>
+        /// Preloads the scripts.
+        /// </summary>
+        private void PreloadScripts()
+        {
+            SeraphimScript[] scripts = AssetManager.Instance.GetAllAssets<SeraphimScript>("Content/Scripts/Scene");
+
+            Parallel.ForEach(scripts,
+                (script) =>
+                {
+                    _scripts.Add(script.Id, CompileScript(script));
+                });
         }
 
         /// <summary>
@@ -173,7 +172,6 @@ namespace SeraphimEngine.Managers.Script
         /// <summary>
         /// Sets the assemblies.
         /// </summary>
-        /// <param name="gameAssembly">The game assembly.</param>
         /// <returns>AssemblyReferences.</returns>
         private void SetAssemblies()
         {
@@ -188,17 +186,19 @@ namespace SeraphimEngine.Managers.Script
         }
 
         /// <summary>
-        ///     Creates the script.
+        /// Creates the script.
         /// </summary>
-        /// <param name="scriptId">The script identifier.</param>
+        /// <param name="script">The script.</param>
         /// <returns>CScript.</returns>
+        /// <exception cref="AssetManagerInitializationException"></exception>
+        /// <exception cref="ScriptCodeException">
+        /// </exception>
         /// <exception cref="SeraphimEngine.Exceptions.AssetManagerInitializationException"></exception>
-        private ISceneScript CreateScript(string scriptId)
+        private ISceneScript CompileScript([NotNull]SeraphimScript script)
         {
             if (!AssetManager.Instance.IsInitialized)
                 throw new AssetManagerInitializationException();
-
-            SeraphimScript script = AssetManager.Instance.GetAsset<SeraphimScript>(scriptId);
+            
             SyntaxTree[] syntaxTree = {CSharpSyntaxTree.ParseText(script.Code)};
             CSharpCompilation compilation = CSharpCompilation.Create(Path.GetRandomFileName(), syntaxTree, _assemblies, _compilationOptions);
 
@@ -222,16 +222,9 @@ namespace SeraphimEngine.Managers.Script
                 stream.Seek(0, SeekOrigin.Begin);
                 Assembly assembly = Assembly.Load(stream.ToArray());
 
-                foreach (
-                    Type type in
-                        assembly.GetTypes()
-                            .Where(
-                                myType =>
-                                    myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof (SceneScript))))
-                    return (ISceneScript) Activator.CreateInstance(type);
+                Type type = assembly.GetTypes().First(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof (SceneScript)));
+                return (ISceneScript) Activator.CreateInstance(type);
             }
-
-            throw new ScriptCodeException();
         }
 
         #endregion

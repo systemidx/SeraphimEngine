@@ -48,7 +48,8 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenes\MainMenu.cs" />
+    <Compile Include="Scenes\Test.cs" />
+    <Compile Include="Scenes\StartMenu.cs" />
     <Compile Include="Scenes\Splash.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,13 +68,12 @@
     <Content Include="Content\Sounds\rollover.mp3" />
     <Content Include="Content\Sounds\select.mp3" />
     <Content Include="Content\Spritesheets\ui.png" />
-    <Content Include="Content\Textures\cursor.png" />
-    <Content Include="Content\Textures\mainmenu_background.png" />
-    <Content Include="Content\Textures\splash_engine.png" />
-    <Content Include="Content\Textures\splash_waffletech.png" />
+    <Content Include="Content\Textures\Menu\cursor.png" />
+    <Content Include="Content\Textures\Scenes\StartMenu\bg.png" />
+    <Content Include="Content\Textures\Scenes\StartMenu\menu.png" />
+    <Content Include="Content\Textures\Scenes\Splash\engine.png" />
+    <Content Include="Content\Textures\Scenes\Splash\studio.png" />
     <Content Include="Icon.ico" />
-    <Content Include="Textures\splash_poweredby.png" />
-    <Content Include="Textures\splash_waffletech.png" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
@@ -91,10 +91,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Content\Fonts\Default.spritefont" />
-    <None Include="Content\Scripts\Scene\scene-main-menu-exit.csx" />
-    <None Include="Content\Scripts\Scene\scene-main-menu-start.csx" />
-    <None Include="Content\Scripts\Scene\second-scene-test.csx" />
     <None Include="Content\Scripts\Scene\scene-test.csx" />
+    <None Include="Content\Scripts\Scene\scene-start-menu-exit.csx" />
+    <None Include="Content\Scripts\Scene\scene-start-menu-start.csx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

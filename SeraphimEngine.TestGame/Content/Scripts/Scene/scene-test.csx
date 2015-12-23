@@ -1,20 +1,40 @@
 ﻿using System;
-using SeraphimEngine.Scene;
 using Microsoft.Xna.Framework;
 using MonoGame.Framework;
+using SeraphimEngine;
+using SeraphimEngine.Scene;
+using SeraphimEngine.Managers.Game;
+using SeraphimEngine.Managers.Scene;
+using SeraphimEngine.TestGame.Scenes;
+using SeraphimEngine.Scene.Gui;
 
-public class Scene_Test : SceneScript {
-    private int myVar = 0;
-
-    public Scene_Test() {
-        Console.WriteLine("new instance");
+public class Scene_Test : SceneScript
+{
+    public Scene_Test()
+    {
     }
-    
-    public override void Update(GameTime gameTime) {
-        Console.WriteLine($"Scene_Test Update");
+
+    public override void Start(bool runOnce)
+    {
+        Console.WriteLine("Starting");
+        SceneManager.Instance.CurrentScene.RegisterMenu(
+            new Menu(
+                "nested-test",
+                new MenuPosition(Vector2.Zero),
+                true,
+                new MenuChoice("Start", "scene-start-menu-start"),
+                new MenuChoice("Exit", "scene-test-menu-exit")
+            )
+        );
+
+        base.Start(runOnce);
     }
 
-    public override void Draw(GameTime gameTime) {
-        Console.WriteLine($"Scene_Test Draw");
+    public override void Update(GameTime gameTime)
+    {
+    }
+
+    public override void Draw(GameTime gameTime)
+    {
     }
 }

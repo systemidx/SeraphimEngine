@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using System.IO;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using SeraphimEngine.ContentPipeline.ContentObjects;
 
 namespace SeraphimEngine.ContentPipeline
@@ -17,7 +18,11 @@ namespace SeraphimEngine.ContentPipeline
         /// <returns>SeraphimScript.</returns>
         public override SeraphimScript Process(string input, ContentProcessorContext context)
         {
-            return new SeraphimScript {Code = input};
+            return new SeraphimScript
+            {
+                Id = Path.GetFileNameWithoutExtension(context.OutputFilename),
+                Code = input
+            };
         }
     }
 }
