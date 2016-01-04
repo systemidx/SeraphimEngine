@@ -22,12 +22,16 @@ namespace SeraphimEngine.Managers.Input
         //todo: Make this configuration driven
         private readonly HashSet<ActionMapping> _maps = new HashSet<ActionMapping>
         {
-            new ActionMapping(Keys.Enter, Buttons.A, InputAction.Accept),
-            new ActionMapping(Keys.Escape, Buttons.B, InputAction.Cancel),
-            new ActionMapping(Keys.W, Buttons.DPadUp, InputAction.Up),
-            new ActionMapping(Keys.A, Buttons.DPadLeft, InputAction.Left),
-            new ActionMapping(Keys.D, Buttons.DPadRight, InputAction.Right),
-            new ActionMapping(Keys.S, Buttons.DPadDown, InputAction.Down)
+            new ActionMapping(InputAction.Accept, Keys.Enter, Buttons.A),
+            new ActionMapping(InputAction.Cancel, Keys.Escape, Buttons.B),
+            new ActionMapping(InputAction.Up, Keys.W, Buttons.DPadUp),
+            new ActionMapping(InputAction.Up, Keys.Up, Buttons.LeftThumbstickUp),
+            new ActionMapping(InputAction.Left, Keys.A, Buttons.DPadLeft),
+            new ActionMapping(InputAction.Left, Keys.Left, Buttons.LeftThumbstickLeft),
+            new ActionMapping(InputAction.Right, Keys.D, Buttons.DPadRight),
+            new ActionMapping(InputAction.Right, Keys.Right, Buttons.LeftThumbstickRight),
+            new ActionMapping(InputAction.Down, Keys.S, Buttons.DPadDown),
+            new ActionMapping(InputAction.Down, Keys.Down, Buttons.LeftThumbstickDown)
         };
 
         /// <summary>
@@ -125,7 +129,7 @@ namespace SeraphimEngine.Managers.Input
                         foreach (Keys k in currentKeys)
                         {
                             InputAction[] currentActions =
-                                _maps.Where(x => x.ActionKey == k).Select(y => y.Event).ToArray();
+                                _maps.Where(x => x.ActionKeys.Contains(k)).Select(y => y.Event).ToArray();
                             foreach (InputAction action in currentActions)
                                 _keysDown.Add(action);
                         }
@@ -138,7 +142,7 @@ namespace SeraphimEngine.Managers.Input
                         foreach (Buttons b in currentButtons)
                         {
                             InputAction[] currentActions =
-                                _maps.Where(x => x.ActionButton == b).Select(y => y.Event).ToArray();
+                                _maps.Where(x => x.ActionButtons.Contains(b)).Select(y => y.Event).ToArray();
                             foreach (InputAction action in currentActions)
                                 _keysDown.Add(action);
                         }

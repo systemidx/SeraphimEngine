@@ -6,8 +6,8 @@ using SeraphimEngine.Scene;
 using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.TestGame.Scenes;
 
-public class Scene_Main_Menu_Start : SceneScript {
-    public Scene_Main_Menu_Start()
+public class Scene_Start_Menu_Start : SceneScript {
+    public Scene_Start_Menu_Start()
     {
         
     }
