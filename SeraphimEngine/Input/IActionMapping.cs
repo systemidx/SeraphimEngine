@@ -8,6 +8,12 @@ namespace SeraphimEngine.Input
     public interface IActionMapping
     {
         /// <summary>
+        /// Gets the action.
+        /// </summary>
+        /// <value>The action.</value>
+        InputAction Event { get; }
+        
+        /// <summary>
         /// Gets the actionMapping key.
         /// </summary>
         /// <value>The actionMapping key.</value>
