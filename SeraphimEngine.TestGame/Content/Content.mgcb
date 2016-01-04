@@ -11,6 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\SeraphimEngine.ContentPipeline\bin\Debug\SeraphimEngine.ContentPipeline.dll
+/reference:..\..\packages\MonoGame.Extended.0.4.64\lib\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -118,4 +119,31 @@
 /importer:ScriptImporter
 /processor:ScriptProcessor
 /build:Scripts/Scene/scene-test.cs
+
+#begin Maps/InitialScene.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/InitialScene.tmx
+
+#begin Maps/Tilesets/Outside_A2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Maps/Tilesets/Outside_A2.png
+
+#begin Maps/Tilesets/Outside_A1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Maps/Tilesets/Outside_A1.png
 

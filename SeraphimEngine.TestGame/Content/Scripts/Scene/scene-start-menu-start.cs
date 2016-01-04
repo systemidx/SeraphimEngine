@@ -15,7 +15,7 @@ public class Scene_Main_Menu_Start : SceneScript {
     public override void Update(GameTime gameTime)
     {
         Console.WriteLine(SceneManager.Instance);
-        SceneManager.Instance.SwitchScene(typeof(Splash));
+        SceneManager.Instance.SwitchScene(typeof(InitialScene));
         base.Update(gameTime);
     }
 

@@ -79,9 +79,11 @@ namespace SeraphimEngine.Managers.Script
         {
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
-            
+
             if (_scripts.ContainsKey(scriptId))
                 Task.Run(() => _scripts[scriptId].Start(runOnce));
+            else
+                Console.WriteLine($"Could not find script: {scriptId}");
         }
 
         /// <summary>
@@ -138,11 +140,13 @@ namespace SeraphimEngine.Managers.Script
         {
             SeraphimScript[] scripts = AssetManager.Instance.GetAllAssets<SeraphimScript>("Content/Scripts/Scene");
 
-            Parallel.ForEach(scripts,
-                (script) =>
-                {
-                    _scripts.Add(script.Id, CompileScript(script));
-                });
+            //Parallel.ForEach(scripts,
+            //    (script) =>
+            //    {
+            //        _scripts.Add(script.Id, CompileScript(script));
+            //    });
+            foreach (var script in scripts)
+                _scripts.Add(script.Id, CompileScript(script));
         }
 
         /// <summary>

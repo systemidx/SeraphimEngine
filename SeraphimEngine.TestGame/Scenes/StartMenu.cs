@@ -12,10 +12,7 @@ namespace SeraphimEngine.TestGame.Scenes
     {
         private Texture2D _textureBackground;
 
-        public StartMenu(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport)
-        {
-
-        }
+        public StartMenu(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport) { }
 
         public override void Load()
         {
@@ -30,11 +27,6 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Unload()
         {
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

@@ -1,11 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using MonoGame.Framework;
-using SeraphimEngine;
 using SeraphimEngine.Scene;
-using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Scene;
-using SeraphimEngine.TestGame.Scenes;
 using SeraphimEngine.Scene.Gui;
 
 public class Scene_Test : SceneScript
@@ -23,7 +19,7 @@ public class Scene_Test : SceneScript
                 new MenuPosition(Vector2.Zero),
                 true,
                 new MenuChoice("Start", "scene-start-menu-start"),
-                new MenuChoice("Exit", "scene-test-menu-exit")
+                new MenuChoice("Exit", "scene-start-menu-exit")
             )
         );
 

@@ -8,11 +8,6 @@ using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.TestGame.Scenes;
 
 public class Scene_Main_Menu_Exit : SceneScript {
-    public Scene_Main_Menu_Exit()
-    {
-        
-    }
-
     public override void Update(GameTime gameTime)
     {
         GameManager.Instance.Exit();
