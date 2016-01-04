@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\Asset\ContainerHelperTests.cs" />
     <Compile Include="Helpers\Asset\TextureFaderTests.cs" />
     <Compile Include="Managers\Asset\AssetManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

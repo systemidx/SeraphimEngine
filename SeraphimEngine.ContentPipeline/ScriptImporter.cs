@@ -6,7 +6,7 @@ namespace SeraphimEngine.ContentPipeline
     /// <summary>
     /// Class ScriptImporter.
     /// </summary>
-    [ContentImporter("csx", DefaultProcessor = "ScriptProcessor", DisplayName = "Seraphim Importer - Script")]
+    [ContentImporter("cs", DefaultProcessor = "ScriptProcessor", DisplayName = "Seraphim Importer - Script")]
     public class ScriptImporter : ContentImporter<string>
     {
         /// <summary>
@@ -17,7 +17,7 @@ namespace SeraphimEngine.ContentPipeline
         /// <returns>System.String.</returns>
         public override string Import(string filename, ContentImporterContext context)
         {
-            context.Logger.LogMessage("Importing CSX file: {0}", filename);
+            context.Logger.LogMessage("Importing CS file: {0}", filename);
             return File.ReadAllText(filename);
         }
     }

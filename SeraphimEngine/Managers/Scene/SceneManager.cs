@@ -60,7 +60,7 @@ namespace SeraphimEngine.Managers.Scene
         {
             _content = content;
             _graphics = graphics;
-            ViewportAdapter = new BoxingViewportAdapter(_graphics, 1920, 1080);
+            ViewportAdapter = new ScalingViewportAdapter(graphics, 1920, 1080);
 
             IsInitialized = true;
         }

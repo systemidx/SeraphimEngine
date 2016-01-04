@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd Party", "3rd Party", "{2794916A-4EB2-40EF-8A8C-5E510FDBF8E7}"
 	ProjectSection(SolutionItems) = preProject
 		3rd Party\MonoGame.Framework.dll = 3rd Party\MonoGame.Framework.dll
+		3rd Party\MonoGame.Framework.Net.dll = 3rd Party\MonoGame.Framework.Net.dll
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeraphimEngine.TestGame", "SeraphimEngine.TestGame\SeraphimEngine.TestGame.csproj", "{EA8238A5-83E7-4FCE-A843-A62BEEAAA822}"

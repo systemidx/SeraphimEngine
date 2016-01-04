@@ -14,7 +14,7 @@ namespace SeraphimEngine.TestGame.Scenes
 {
     public class Splash : Scene.Scene
     {
-        private Song _splashBg;
+        private Song _splashMusic;
 
         private readonly TextureFader _poweredByFader = new TextureFader();
         private bool _poweredByScreenFadedOut = false;
@@ -30,9 +30,9 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Load()
         {
-            _poweredByTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/splash_engine");
-            _studioTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/splash_waffletech");
-            _splashBg = AssetManager.Instance.GetAsset<Song>("music/splash");
+            _poweredByTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash/engine");
+            _studioTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash/studio");
+            _splashMusic = AssetManager.Instance.GetAsset<Song>("music/splash");
             _studioScreenPlaying = true;
         }
 
@@ -42,8 +42,10 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Update(GameTime gameTime)
         {
-            if (MediaPlayer.State == MediaState.Stopped)
-                MediaPlayer.Play(_splashBg);
+            if (MediaPlayer.State == MediaState.Stopped) { 
+                MediaPlayer.Play(_splashMusic);
+                MediaPlayer.IsRepeating = true;
+            }
 
             if (_studioScreenPlaying)
             {
@@ -74,7 +76,7 @@ namespace SeraphimEngine.TestGame.Scenes
                     return;
                 }
 
-                SceneManager.Instance.SwitchScene(typeof(MainMenu));
+                SceneManager.Instance.SwitchScene(typeof(StartMenu));
             }
         }
 

@@ -4,11 +4,15 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Spritesheets/ui.png</File>
-    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/scene-test.csx</File>
-    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/second-scene-test.csx</File>
-    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Music/splash.mp3</File>
-    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/splash_waffletech.png</File>
-    <File>D:/Programming/GitHub/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/splash_engine.png</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Spritesheets/ui.png</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/scene-test.csx</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/second-scene-test.csx</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Music/splash.mp3</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/splash_waffletech.png</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/splash_engine.png</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/scene-main-menu-start.csx</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Scripts/Scene/scene-main-menu-exit.csx</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Textures/mainmenu_background.png</File>
+    <File>E:/Programming/Projects/SeraphimEngine/SeraphimEngine.TestGame/Content/Fonts/Default.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>
