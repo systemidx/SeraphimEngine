@@ -17,9 +17,10 @@ namespace SeraphimEngine.Managers.Asset
         /// Gets the asset.
         /// </summary>
         /// <typeparam name="TAssetType">The type of the t asset type.</typeparam>
+        /// <param name="assetDirectory">The asset directory.</param>
         /// <param name="assetId">The asset identifier.</param>
         /// <returns>TAssetType.</returns>
-        TAssetType GetAsset<TAssetType>(string assetId);
+        TAssetType GetAsset<TAssetType>(string assetDirectory, string assetId);
 
         /// <summary>
         /// Gets all assets.

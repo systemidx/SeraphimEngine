@@ -1,18 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
+using SeraphimEngine.Gui.Menu.Enumerations;
 using SeraphimEngine.Managers.Scene;
 
-namespace SeraphimEngine.Scene.Gui
+namespace SeraphimEngine.Gui.Menu
 {
     /// <summary>
     /// Class MenuPosition.
     /// </summary>
     public class MenuPosition
     {
+        #region Public Variables
+
+        /// <summary>
+        /// The position
+        /// </summary>
         public Vector2 Position;
 
+        #endregion
+
+        #region Private Variables
+
+        /// <summary>
+        /// Flag which denotes whether or not the menu is positioned in the center
+        /// </summary>
         private readonly bool _center;
+
+        /// <summary>
+        /// The horizontal position
+        /// </summary>
         private readonly MenuPositionHorizontal _horizontalPosition;
+
+        /// <summary>
+        /// The vertical position
+        /// </summary>
         private readonly MenuPositionVertical _verticalPosition;
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuPosition"/> class.
@@ -35,6 +60,10 @@ namespace SeraphimEngine.Scene.Gui
             _verticalPosition = verticalPosition;
             _center = center;
         }
+
+        #endregion
+
+        #region Life Cycle Events
 
         /// <summary>
         /// Does the calculate to determine fine-tuned position. This method is not needed if using a Vector2 to place object.
@@ -61,5 +90,7 @@ namespace SeraphimEngine.Scene.Gui
 
             Position = new Vector2(hStart, vStart);
         }
+
+        #endregion
     }
 }

@@ -67,7 +67,7 @@ namespace SeraphimEngine.Managers.Scene
 
         #endregion
 
-        #region Scene Methods
+        #region SeraphimScene Methods
 
         /// <summary>
         /// Switches the scene.

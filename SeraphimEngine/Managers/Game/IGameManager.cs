@@ -1,6 +1,5 @@
-﻿using System.Reflection;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 
 namespace SeraphimEngine.Managers.Game
 {
@@ -17,6 +16,12 @@ namespace SeraphimEngine.Managers.Game
         /// </summary>
         /// <value>The sprite batch.</value>
         SpriteBatch SpriteBatch { get; }
+
+        /// <summary>
+        /// Updates the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        void Update(GameTime gameTime);
 
         /// <summary>
         /// Starts the drawing.

@@ -1,6 +1,7 @@
 ﻿using System;
 using MonoGame.Extended;
-using SeraphimEngine.Scene.Gui;
+using SeraphimEngine.Gui;
+using SeraphimEngine.Gui.Menu;
 
 namespace SeraphimEngine.Scene
 {
@@ -29,7 +30,7 @@ namespace SeraphimEngine.Scene
         /// Registers the menu.
         /// </summary>
         /// <param name="menu">The menu.</param>
-        void RegisterMenu(IMenu menu);
+        void RegisterMenu(IMenuGui menu);
 
         /// <summary>
         /// Unloads the menu.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -6,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SeraphimEngine.Input;
+using SeraphimEngine.Input.Enumerations;
 
 namespace SeraphimEngine.Managers.Input
 {
@@ -17,36 +19,46 @@ namespace SeraphimEngine.Managers.Input
         #region Read Only Member Variables
 
         /// <summary>
+        /// The keyboard input predicate
+        /// </summary>
+        private readonly Func<IEnumerable<Keys>> _keyboardInput = () => Keyboard.GetState().GetPressedKeys();
+
+        /// <summary>
+        /// The game pad input predicate
+        /// </summary>
+        private readonly Func<IEnumerable<Buttons>> _gamePadInput = () => GetPressedButtons();
+
+        /// <summary>
         /// The input maps
         /// </summary>
         //todo: Make this configuration driven
-        private readonly HashSet<ActionMapping> _maps = new HashSet<ActionMapping>
+        private readonly HashSet<GameActionInputMapping> _maps = new HashSet<GameActionInputMapping>
         {
-            new ActionMapping(InputAction.Accept, Keys.Enter, Buttons.A),
-            new ActionMapping(InputAction.Cancel, Keys.Escape, Buttons.B),
-            new ActionMapping(InputAction.Up, Keys.W, Buttons.DPadUp),
-            new ActionMapping(InputAction.Up, Keys.Up, Buttons.LeftThumbstickUp),
-            new ActionMapping(InputAction.Left, Keys.A, Buttons.DPadLeft),
-            new ActionMapping(InputAction.Left, Keys.Left, Buttons.LeftThumbstickLeft),
-            new ActionMapping(InputAction.Right, Keys.D, Buttons.DPadRight),
-            new ActionMapping(InputAction.Right, Keys.Right, Buttons.LeftThumbstickRight),
-            new ActionMapping(InputAction.Down, Keys.S, Buttons.DPadDown),
-            new ActionMapping(InputAction.Down, Keys.Down, Buttons.LeftThumbstickDown)
+            new GameActionInputMapping(GameAction.Accept, Keys.Enter, Buttons.A),
+            new GameActionInputMapping(GameAction.Cancel, Keys.Escape, Buttons.B),
+            new GameActionInputMapping(GameAction.Up, Keys.W, Buttons.DPadUp),
+            new GameActionInputMapping(GameAction.Up, Keys.Up, Buttons.LeftThumbstickUp),
+            new GameActionInputMapping(GameAction.Left, Keys.A, Buttons.DPadLeft),
+            new GameActionInputMapping(GameAction.Left, Keys.Left, Buttons.LeftThumbstickLeft),
+            new GameActionInputMapping(GameAction.Right, Keys.D, Buttons.DPadRight),
+            new GameActionInputMapping(GameAction.Right, Keys.Right, Buttons.LeftThumbstickRight),
+            new GameActionInputMapping(GameAction.Down, Keys.S, Buttons.DPadDown),
+            new GameActionInputMapping(GameAction.Down, Keys.Down, Buttons.LeftThumbstickDown)
         };
 
         /// <summary>
         /// The collection of keys which are being pressed.
         /// </summary>
-        private readonly HashSet<InputAction> _keysDown = new HashSet<InputAction>();
+        private HashSet<GameAction> _keysDown = new HashSet<GameAction>();
 
         /// <summary>
         /// The previous keys down
         /// </summary>
-        private readonly HashSet<InputAction> _previousKeysDown = new HashSet<InputAction>();
+        private readonly HashSet<GameAction> _previousKeysDown = new HashSet<GameAction>();
 
         //The reason for this stupidity is because XNA/MonoGame doesn't support enumerating button state
         //and MonoGame doesn't exactly natively support PS4 controllers via PacketNumber just yet.
-        private readonly HashSet<Buttons> _gamepadButtons = new HashSet<Buttons>
+        private static readonly HashSet<Buttons> GamepadButtons = new HashSet<Buttons>
         {
             Buttons.A,
             Buttons.B,
@@ -89,7 +101,7 @@ namespace SeraphimEngine.Managers.Input
         /// Gets the input method.
         /// </summary>
         /// <value>The input method.</value>
-        public ActionInputMethod InputMethod { get; private set; } = ActionInputMethod.None;
+        public GameActionInputDevice InputDevice { get; private set; } = GameActionInputDevice.None;
 
         #endregion
 
@@ -111,47 +123,31 @@ namespace SeraphimEngine.Managers.Input
         /// <param name="gameTime">The game time.</param>
         public void Update(GameTime gameTime)
         {
-            if (InputMethod != ActionInputMethod.None)
+            //Poll for input type if we haven't established it
+            if (InputDevice == GameActionInputDevice.None)
+                PollForInputType();
+            
+            //Reset Previous Keys
+            _previousKeysDown.Clear();
+            foreach (GameAction action in _keysDown)
+                _previousKeysDown.Add(action);
+
+            //Reset the current keys before we recreate the collection
+            _keysDown.Clear();
+            
+            //Get New Keys or Buttons
+            if (InputDevice == GameActionInputDevice.Keyboard)
             {
-                //Reset Previous Keys
-                _previousKeysDown.Clear();
-                foreach (InputAction action in _keysDown)
-                    _previousKeysDown.Add(action);
-
-                _keysDown.Clear();
-
-                //Get New Keys
-                switch (InputMethod)
-                {
-                    case ActionInputMethod.Keyboard:
-                        Keys[] currentKeys = Keyboard.GetState().GetPressedKeys();
-
-                        foreach (Keys k in currentKeys)
-                        {
-                            InputAction[] currentActions =
-                                _maps.Where(x => x.ActionKeys.Contains(k)).Select(y => y.Event).ToArray();
-                            foreach (InputAction action in currentActions)
-                                _keysDown.Add(action);
-                        }
-
-                        return;
-
-                    case ActionInputMethod.Controller:
-                        IEnumerable<Buttons> currentButtons = GetPressedButtons();
-
-                        foreach (Buttons b in currentButtons)
-                        {
-                            InputAction[] currentActions =
-                                _maps.Where(x => x.ActionButtons.Contains(b)).Select(y => y.Event).ToArray();
-                            foreach (InputAction action in currentActions)
-                                _keysDown.Add(action);
-                        }
-
-                        return;
-                }
+                _keysDown = new HashSet<GameAction>(
+                    _maps.Where(x => x.ActionKeys.Intersect(_keyboardInput.Invoke()).Any())
+                        .Select(x => x.GameActionEvent));
             }
-
-            PollForInputType();
+            else
+            {
+                _keysDown = new HashSet<GameAction>(
+                    _maps.Where(x => x.ActionButtons.Intersect(_gamePadInput.Invoke()).Any())
+                        .Select(x => x.GameActionEvent));
+            }
         }
 
         /// <summary>
@@ -161,13 +157,13 @@ namespace SeraphimEngine.Managers.Input
         {
             if (Keyboard.GetState().GetPressedKeys().Any())
             {
-                InputMethod = ActionInputMethod.Keyboard;
+                InputDevice = GameActionInputDevice.Keyboard;
                 return;
             }
 
             GamePadState gpState = GamePad.GetState(PlayerIndex.One);
             if (gpState.IsConnected && GamePadAnyButtonPressed(gpState))
-                InputMethod = ActionInputMethod.Controller;
+                InputDevice = GameActionInputDevice.Controller;
         }
 
         /// <summary>
@@ -177,17 +173,17 @@ namespace SeraphimEngine.Managers.Input
         /// <returns>System.Boolean.</returns>
         private bool GamePadAnyButtonPressed(GamePadState gpState)
         {
-            return _gamepadButtons.Any(gpState.IsButtonDown);
+            return GamepadButtons.Any(gpState.IsButtonDown);
         }
 
         /// <summary>
         /// Gets the pressed buttons.
         /// </summary>
         /// <returns>System.Collections.Generic.IEnumerable&lt;Microsoft.Xna.Framework.Input.Buttons&gt;.</returns>
-        private IEnumerable<Buttons> GetPressedButtons()
+        private static IEnumerable<Buttons> GetPressedButtons()
         {
             GamePadState gpState = GamePad.GetState(PlayerIndex.One);
-            return _gamepadButtons.Where(gpState.IsButtonDown);
+            return GamepadButtons.Where(gpState.IsButtonDown);
         }
 
         #endregion
@@ -200,7 +196,7 @@ namespace SeraphimEngine.Managers.Input
         /// <param name="action">The action.</param>
         /// <returns>
         ///   <c>true</c> if [is action down] [the specified action]; otherwise, <c>false</c>.</returns>
-        public bool IsActionDown(InputAction action)
+        public bool IsActionDown(GameAction action)
         {
             return _keysDown.Contains(action) && !_previousKeysDown.Contains(action);
         }
@@ -211,7 +207,7 @@ namespace SeraphimEngine.Managers.Input
         /// <param name="action">The action.</param>
         /// <returns>
         ///   <c>true</c> if [is action held] [the specified action]; otherwise, <c>false</c>.</returns>
-        public bool IsActionHeld(InputAction action)
+        public bool IsActionHeld(GameAction action)
         {
             return _keysDown.Contains(action) && _previousKeysDown.Contains(action);
         }

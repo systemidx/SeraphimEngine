@@ -7,15 +7,15 @@ using Microsoft.Xna.Framework;
 
 namespace SeraphimEngine.TestGame.Scenes
 {
-    public class InitialScene : Scene.Scene
+    public class InitialSeraphimScene : Scene.SeraphimScene
     {
         private TiledMap map;
 
-        public InitialScene(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport) {}
+        public InitialSeraphimScene(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport) {}
 
         public override void Load()
         {
-            map = AssetManager.Instance.GetAsset<TiledMap>("Maps/InitialScene");
+            map = AssetManager.Instance.GetAsset<TiledMap>("Maps", "InitialScene");
         }
 
         public override void Unload()

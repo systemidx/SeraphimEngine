@@ -8,17 +8,17 @@ namespace SeraphimEngine.ContentPipeline
     /// Class ScriptProcessor.
     /// </summary>
     [ContentProcessor(DisplayName = "Seraphim Processor - Script")]
-    public class ScriptProcessor : ContentProcessor<string, SeraphimScript>
+    public class ScriptProcessor : ContentProcessor<string, SeraphimScriptContent>
     {
         /// <summary>
         /// Processes the specified input.
         /// </summary>
         /// <param name="input">The input.</param>
         /// <param name="context">The context.</param>
-        /// <returns>SeraphimScript.</returns>
-        public override SeraphimScript Process(string input, ContentProcessorContext context)
+        /// <returns>SeraphimScriptContent.</returns>
+        public override SeraphimScriptContent Process(string input, ContentProcessorContext context)
         {
-            return new SeraphimScript
+            return new SeraphimScriptContent
             {
                 Id = Path.GetFileNameWithoutExtension(context.OutputFilename),
                 Code = input

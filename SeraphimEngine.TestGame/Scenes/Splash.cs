@@ -12,7 +12,7 @@ using SeraphimEngine.Managers.Scene;
 
 namespace SeraphimEngine.TestGame.Scenes
 {
-    public class Splash : Scene.Scene
+    public class Splash : Scene.SeraphimScene
     {
         private Song _splashMusic;
 
@@ -30,9 +30,9 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Load()
         {
-            _poweredByTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash/engine");
-            _studioTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash/studio");
-            _splashMusic = AssetManager.Instance.GetAsset<Song>("music/splash");
+            _poweredByTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash", "engine");
+            _studioTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash", "studio");
+            _splashMusic = AssetManager.Instance.GetAsset<Song>("music", "splash");
             _studioScreenPlaying = true;
         }
 

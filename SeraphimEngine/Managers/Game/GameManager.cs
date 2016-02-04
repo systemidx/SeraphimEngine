@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SeraphimEngine.Input;
 using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Gui;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.Managers.Script;
@@ -59,10 +61,22 @@ namespace SeraphimEngine.Managers.Game
             SceneManager.Instance.Initialize(content, graphics);
             AssetManager.Instance.Initialize(content, graphics);
             ScriptManager.Instance.Initialize(content, graphics);
+            GuiManager.Instance.Initialize(content, graphics);
 
             SpriteBatch = new SpriteBatch(graphics);
 
             IsInitialized = true;
+        }
+
+        /// <summary>
+        /// Updates the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        public void Update(GameTime gameTime)
+        {
+            InputManager.Instance.Update(gameTime);
+            ScriptManager.Instance.Update(gameTime);
+            SceneManager.Instance.Update(gameTime);
         }
 
         /// <summary>

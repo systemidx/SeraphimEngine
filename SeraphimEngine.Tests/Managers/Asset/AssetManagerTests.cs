@@ -15,11 +15,11 @@ namespace SeraphimEngine.Tests.Managers.Asset
         public void UninitializedManagerThrowsException()
         {
             IAssetManager newInstance = new AssetManager();
-            newInstance.GetAsset<string>("");
+            newInstance.GetAsset<string>("","");
         }
 
         [TestMethod]
-        public void UnloadAssetsRemvoesAssetFromCache()
+        public void UnloadAssetsRemovesAssetFromCache()
         {
             const string OBJECT_KEY_FIRST = "some_key";
 
@@ -27,13 +27,10 @@ namespace SeraphimEngine.Tests.Managers.Asset
             mockContent.Setup(x => x.Load<string>(OBJECT_KEY_FIRST)).Returns("first");
 
             IAssetManager manager = new AssetManager();
-            Assert.IsTrue(manager.ObjectCache.Count == 0);
-
             manager.Initialize(mockContent.Object, null);
-            manager.GetAsset<string>(OBJECT_KEY_FIRST);
-            Assert.IsTrue(manager.ObjectCache.Count == 1);
-
+            manager.GetAsset<string>("", OBJECT_KEY_FIRST);
             manager.UnloadAsset(OBJECT_KEY_FIRST);
+
             Assert.IsTrue(manager.ObjectCache.Count == 0);
         }
 
@@ -49,7 +46,7 @@ namespace SeraphimEngine.Tests.Managers.Asset
             Assert.IsTrue(manager.ObjectCache.Count == 0);
 
             manager.Initialize(mockContent.Object, null);
-            manager.GetAsset<string>(OBJECT_KEY_FIRST);
+            manager.GetAsset<string>("", OBJECT_KEY_FIRST);
 
             Assert.IsTrue(manager.ObjectCache.Count == 1);
         }
@@ -66,8 +63,8 @@ namespace SeraphimEngine.Tests.Managers.Asset
             Assert.IsTrue(manager.ObjectCache.Count == 0);
 
             manager.Initialize(mockContent.Object, null);
-            manager.GetAsset<string>(OBJECT_KEY_FIRST);
-            manager.GetAsset<string>(OBJECT_KEY_FIRST);
+            manager.GetAsset<string>("", OBJECT_KEY_FIRST);
+            manager.GetAsset<string>("", OBJECT_KEY_FIRST);
         }
 
         [TestMethod]
@@ -84,8 +81,8 @@ namespace SeraphimEngine.Tests.Managers.Asset
             Assert.IsTrue(manager.ObjectCache.Count == 0);
 
             manager.Initialize(mockContent.Object, null);
-            Assert.AreEqual("first", manager.GetAsset<string>(OBJECT_KEY_FIRST));
-            Assert.AreEqual(true, manager.GetAsset<bool>(OBJECT_KEY_SECOND));
+            Assert.AreEqual("first", manager.GetAsset<string>(null, OBJECT_KEY_FIRST));
+            Assert.AreEqual(true, manager.GetAsset<bool>(null, OBJECT_KEY_SECOND));
         }
     }
 }

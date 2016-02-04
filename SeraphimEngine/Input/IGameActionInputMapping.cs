@@ -1,28 +1,29 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using SeraphimEngine.Input.Enumerations;
 
 namespace SeraphimEngine.Input
 {
     /// <summary>
-    /// Interface IActionMapping
+    /// Interface IGameActionInputMapping
     /// </summary>
-    public interface IActionMapping
+    public interface IGameActionInputMapping
     {
         /// <summary>
         /// Gets the action.
         /// </summary>
         /// <value>The action.</value>
-        InputAction Event { get; }
+        GameAction GameActionEvent { get; }
         
         /// <summary>
         /// Gets the actionMapping key.
         /// </summary>
         /// <value>The actionMapping key.</value>
-        Keys ActionKey { get; }
+        Keys[] ActionKeys { get; }
 
         /// <summary>
         /// Gets the actionMapping button.
         /// </summary>
         /// <value>The actionMapping button.</value>
-        Buttons ActionButton { get; } 
+        Buttons[] ActionButtons { get; } 
     }
 }

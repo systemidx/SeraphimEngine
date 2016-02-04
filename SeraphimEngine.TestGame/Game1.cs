@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using SeraphimEngine.Input;
+using SeraphimEngine.Input.Enumerations;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
@@ -49,7 +51,7 @@ namespace SeraphimEngine.TestGame
         protected override void LoadContent()
         {
 #if DEBUG
-            SceneManager.Instance.SwitchScene(typeof(Test));
+            SceneManager.Instance.SwitchScene(typeof(StartMenu));
 #else
             SceneManager.Instance.SwitchScene(typeof(Splash));
 #endif
@@ -79,15 +81,13 @@ namespace SeraphimEngine.TestGame
                 catch(NullReferenceException) { }
             }
 
-            InputManager.Instance.Update(gameTime);
-            ScriptManager.Instance.Update(gameTime);
-            SceneManager.Instance.Update(gameTime);
-
-            if (InputManager.Instance.IsActionDown(Input.InputAction.Cancel))
+            if (InputManager.Instance.IsActionDown(GameAction.FullScreen))
             {
-                _graphics.IsFullScreen = true;
+                _graphics.IsFullScreen = !_graphics.IsFullScreen;
                 _graphics.ApplyChanges();
             }
+
+            GameManager.Instance.Update(gameTime);
             base.Update(gameTime);
         }
 

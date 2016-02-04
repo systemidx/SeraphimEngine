@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SeraphimEngine.Exceptions;
@@ -49,20 +51,34 @@ namespace SeraphimEngine.Managers.Asset
         /// Gets the asset from cache. If the asset is not in cache, it fetches it from the content handler.
         /// </summary>
         /// <typeparam name="TAssetType">The type of the t asset type.</typeparam>
+        /// <param name="assetDirectory">The asset directory.</param>
         /// <param name="assetId">The asset identifier.</param>
         /// <returns>TAssetType.</returns>
         /// <exception cref="AssetManagerInitializationException"></exception>
-        public TAssetType GetAsset<TAssetType>(string assetId)
+        public TAssetType GetAsset<TAssetType>(string assetDirectory, string assetId)
         {
             if (!IsInitialized)
                 throw new AssetManagerInitializationException();
 
-            assetId = assetId.Replace("Content/","");
+            if (assetDirectory != null)
+            { 
+                if (assetDirectory.StartsWith("Content"))
+                    assetDirectory = assetDirectory.Replace("Content", "");
+
+                if (assetDirectory.StartsWith("/"))
+                    assetDirectory = assetDirectory.Remove(0, 1);
+
+                if (!assetDirectory.EndsWith("/"))
+                    assetDirectory += "/";
+            }
+
+            string fullAssetPath = assetDirectory + assetId;
 
             if (ObjectCache.ContainsKey(assetId))
-                return (TAssetType) ObjectCache[assetId];
+                return (TAssetType)ObjectCache[assetId];
+            
+            TAssetType asset = _content.Load<TAssetType>(fullAssetPath);
 
-            TAssetType asset = _content.Load<TAssetType>(assetId);
             ObjectCache.Add(assetId, asset);
 
             return asset;
@@ -80,8 +96,16 @@ namespace SeraphimEngine.Managers.Asset
             if (!IsInitialized)
                 throw new AssetManagerInitializationException();
 
-            FileInfo[] files = new DirectoryInfo(assetDirectory).GetFiles();
-            List<TAssetType> assets = files.Select(f => GetAsset<TAssetType>($"{assetDirectory}/{Path.GetFileNameWithoutExtension(f.Name)}")).ToList();
+            DirectoryInfo contentDirectory = new DirectoryInfo(assetDirectory);
+            FileInfo[] files = contentDirectory.GetFiles("*.*", SearchOption.AllDirectories);
+
+            ConcurrentBag<TAssetType> assets = new ConcurrentBag<TAssetType>();
+            Parallel.ForEach(files, f =>
+            {
+                assets.Add(GetAsset<TAssetType>(assetDirectory + MakeRelativePath(contentDirectory.FullName, Path.GetDirectoryName(f.FullName)),
+                Path.GetFileNameWithoutExtension(f.Name)));
+            });
+
             return assets.ToArray();
         }
 
@@ -113,6 +137,39 @@ namespace SeraphimEngine.Managers.Asset
             _graphics = graphics;
 
             IsInitialized = true;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Makes the relative path.
+        /// </summary>
+        /// <param name="fromPath">From path.</param>
+        /// <param name="toPath">To path.</param>
+        /// <returns>System.String.</returns>
+        private string MakeRelativePath(string fromPath, string toPath)
+        {
+            if (string.IsNullOrEmpty(fromPath))
+                throw new ArgumentNullException(nameof(fromPath));
+
+            if (string.IsNullOrEmpty(toPath))
+                throw new ArgumentNullException(nameof(toPath));
+
+            Uri fromUri = new Uri(fromPath);
+            Uri toUri = new Uri(toPath);
+
+            if (fromUri.Scheme != toUri.Scheme)
+                return toPath;
+
+            Uri relativeUri = fromUri.MakeRelativeUri(toUri);
+            string relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+
+            if (toUri.Scheme.ToUpperInvariant() == "FILE")
+                relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+            return relativePath;
         }
 
         #endregion

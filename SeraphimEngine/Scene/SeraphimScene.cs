@@ -6,14 +6,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
-using SeraphimEngine.Scene.Gui;
+using SeraphimEngine.Gui;
+using SeraphimEngine.Gui.Menu;
 
 namespace SeraphimEngine.Scene
 {
     /// <summary>
-    /// Class Scene.
+    /// Class SeraphimScene.
     /// </summary>
-    public abstract class Scene : IScene
+    public abstract class SeraphimScene : IScene
     {
         #region Member Variables
         
@@ -25,7 +26,7 @@ namespace SeraphimEngine.Scene
         /// <summary>
         /// The menu container
         /// </summary>
-        private readonly List<IMenu> _menus = new List<IMenu>();
+        private readonly List<IMenuGui> _menus = new List<IMenuGui>();
 
         #endregion
 
@@ -42,11 +43,11 @@ namespace SeraphimEngine.Scene
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Scene"/> class.
+        /// Initializes a new instance of the <see cref="SeraphimScene"/> class.
         /// </summary>
         /// <param name="graphics">The graphics.</param>
         /// <param name="viewport">The viewport.</param>
-        protected Scene(GraphicsDevice graphics, ViewportAdapter viewport)
+        protected SeraphimScene(GraphicsDevice graphics, ViewportAdapter viewport)
         {
             SceneCamera = new Camera2D(viewport);
             Graphics = graphics;
@@ -59,12 +60,12 @@ namespace SeraphimEngine.Scene
         /// <summary>
         /// Loads this instance.
         /// </summary>
-        public abstract void Load();
+        public virtual void Load() { }
 
         /// <summary>
         /// Unloads this instance.
         /// </summary>
-        public abstract void Unload();
+        public virtual void Unload() { }
 
         /// <summary>
         /// Updates the specified game time.
@@ -84,7 +85,7 @@ namespace SeraphimEngine.Scene
         /// <param name="gameTime">The game time.</param>
         public virtual void Draw(GameTime gameTime)
         {
-            foreach (IMenu menu in _menus)
+            foreach (IMenuGui menu in _menus)
                 menu.Draw(gameTime);
         }
 
@@ -96,7 +97,7 @@ namespace SeraphimEngine.Scene
         /// Registers the menu.
         /// </summary>
         /// <param name="menu">The menu.</param>
-        public void RegisterMenu([NotNull]IMenu menu)
+        public void RegisterMenu([NotNull]IMenuGui menu)
         {
             if (_menus.Any(x => string.Equals(x.Id, menu.Id, StringComparison.InvariantCultureIgnoreCase)))
                 return;

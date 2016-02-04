@@ -1,11 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
-namespace SeraphimEngine.Scene
+namespace SeraphimEngine.Script
 {
     /// <summary>
     /// Class SceneScript.
     /// </summary>
-    public abstract class SceneScript : ISceneScript
+    [Serializable]
+    public abstract class SeraphimScript : IScript
     {
         /// <summary>
         /// Gets a value indicating whether this instance is running.
