@@ -20,7 +20,7 @@ namespace SeraphimEngine.Managers.Asset
         /// <summary>
         /// The content manager
         /// </summary>
-        private ContentManager _content;
+        public ContentManager Content { get; private set; }
 
         /// <summary>
         /// The graphics device
@@ -60,6 +60,10 @@ namespace SeraphimEngine.Managers.Asset
             if (!IsInitialized)
                 throw new AssetManagerInitializationException();
 
+            int idxExtension = assetId.LastIndexOf(".");
+            if (idxExtension > -1)
+                assetId = assetId.Replace(assetId.Substring(idxExtension), "");
+
             if (assetDirectory != null)
             { 
                 if (assetDirectory.StartsWith("Content"))
@@ -77,7 +81,7 @@ namespace SeraphimEngine.Managers.Asset
             if (ObjectCache.ContainsKey(assetId))
                 return (TAssetType)ObjectCache[assetId];
             
-            TAssetType asset = _content.Load<TAssetType>(fullAssetPath);
+            TAssetType asset = Content.Load<TAssetType>(fullAssetPath);
 
             ObjectCache.Add(assetId, asset);
 
@@ -133,7 +137,7 @@ namespace SeraphimEngine.Managers.Asset
         /// <param name="graphics">The graphics.</param>
         public override void Initialize(ContentManager content, GraphicsDevice graphics)
         {
-            _content = content;
+            Content = content;
             _graphics = graphics;
 
             IsInitialized = true;

@@ -40,6 +40,12 @@ namespace SeraphimEngine.Helpers.Asset
         /// <value>The fade direction.</value>
         public TextureFadeDirection FadeDirection { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance has changed directions.
+        /// </summary>
+        /// <value><c>true</c> if this instance has changed directions; otherwise, <c>false</c>.</value>
+        public bool HasChangedDirections { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -103,6 +109,7 @@ namespace SeraphimEngine.Helpers.Asset
         /// </summary>
         public void ChangeDirection()
         {
+            HasChangedDirections = true;
             if (FadeDirection == TextureFadeDirection.In)
             {
                 FadeDirection = TextureFadeDirection.Out;

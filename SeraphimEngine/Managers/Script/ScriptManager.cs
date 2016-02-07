@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SeraphimEngine.ContentPipeline.ContentObjects;
+using SeraphimEngine.ContentPipeline.Script;
 using SeraphimEngine.Exceptions;
 using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Script;
@@ -52,12 +52,21 @@ namespace SeraphimEngine.Managers.Script
         private readonly HashSet<MetadataReference> _assemblies = new HashSet<MetadataReference>();
 
         /// <summary>
-        /// The  options which are used to compile the scriptContent code.
+        /// The  options which are used to compile the scriptMetaData code.
         /// </summary>
         private readonly CSharpCompilationOptions _compilationOptions =
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
+        /// <summary>
+        /// The cacher instance
+        /// </summary>
         private readonly IScriptCacher _cacher = new ScriptCacher();
+
+        /// <summary>
+        /// The compilation tasks collection. This collection holds all of the compilation tasks, so if they are not finished compiling when called,
+        /// we know to wait.
+        /// </summary>
+        private readonly IDictionary<string, Task> _compilationTasks = new Dictionary<string, Task>();
 
         #endregion
 
@@ -71,16 +80,16 @@ namespace SeraphimEngine.Managers.Script
         /// <summary>
         /// The scripts that are serialized from the Content
         /// </summary>
-        private SeraphimScriptContent[] _scriptContentContent;
+        private ScriptMetaData[] _scriptMetaDataMetaData;
 
         #endregion
 
         #region Exposed SeraphimScript Control Methods
 
         /// <summary>
-        /// Starts the scriptContent.
+        /// Starts the scriptMetaData.
         /// </summary>
-        /// <param name="script">The scriptContent.</param>
+        /// <param name="script">The scriptMetaData.</param>
         /// <param name="runOnce">if set to <c>true</c> [run once].</param>
         /// <exception cref="ScriptManagerInitializationException"></exception>
         public void StartScript(Type script, bool runOnce = false)
@@ -92,6 +101,9 @@ namespace SeraphimEngine.Managers.Script
             int idx = ((List<IScript>) _scripts).FindIndex(x => x.GetType().Name == script.Name);
             if (idx > -1)
             {
+                //Check to see if task is still in the collection and remove it
+                _compilationTasks.Remove(script.Name);
+
                 Task.Run(() => _scripts[idx].Start(runOnce));
                 return;
             }
@@ -102,23 +114,20 @@ namespace SeraphimEngine.Managers.Script
                     x =>
                         x.Value.Status == TaskStatus.Running &&
                         string.Compare(x.Key, script.Name, StringComparison.OrdinalIgnoreCase) > 0).Value;
+
             if (task == null)
                 throw new ScriptNotRegisteredException();
 
             //If it's still compiling, wait...
             while (task.Status == TaskStatus.Running)
-            {
-                Console.Write(".");
                 Thread.Sleep(10);
-            }
-            Console.WriteLine();
 
             //Recurse and try again
             StartScript(script, runOnce);
         }
 
         /// <summary>
-        /// Stops the scriptContent.
+        /// Stops the scriptMetaData.
         /// </summary>
         /// <param name="script">The script.</param>
         /// <exception cref="ScriptManagerInitializationException"></exception>
@@ -135,10 +144,10 @@ namespace SeraphimEngine.Managers.Script
         }
 
         /// <summary>
-        /// Determines whether the specified scriptContent identifier is running.
+        /// Determines whether the specified scriptMetaData identifier is running.
         /// </summary>
         /// <param name="script">The script.</param>
-        /// <returns><c>true</c> if the specified scriptContent identifier is running; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the specified scriptMetaData identifier is running; otherwise, <c>false</c>.</returns>
         /// <exception cref="ScriptManagerInitializationException"></exception>
         public bool IsRunning(Type script)
         {
@@ -175,6 +184,9 @@ namespace SeraphimEngine.Managers.Script
         /// <param name="gameTime">The game time.</param>
         public void Update(GameTime gameTime)
         {
+            if (_scripts == null)
+                return;
+
             foreach (var script in _scripts.Where(x => x.IsRunning))
                 script.Update(gameTime);
         }
@@ -185,6 +197,9 @@ namespace SeraphimEngine.Managers.Script
         /// <param name="gameTime">The game time.</param>
         public void Draw(GameTime gameTime)
         {
+            if (_scripts == null)
+                return;
+
             foreach (var script in _scripts.Where(x => x.IsRunning))
                 script.Draw(gameTime);
         }
@@ -212,32 +227,34 @@ namespace SeraphimEngine.Managers.Script
         }
 
         /// <summary>
-        /// Creates the scriptContent.
+        /// Creates the scriptMetaData.
         /// </summary>
-        /// <param name="scriptContent">The scriptContent.</param>
+        /// <param name="scriptMetaData">The scriptMetaData.</param>
         /// <returns>CScript.</returns>
         /// <exception cref="AssetManagerInitializationException"></exception>
         /// <exception cref="ScriptCodeException">
         /// </exception>
         /// <exception cref="SeraphimEngine.Exceptions.AssetManagerInitializationException"></exception>
-        private IScript CompileScript([NotNull] SeraphimScriptContent scriptContent)
+        private IScript CompileScript([NotNull] ScriptMetaData scriptMetaData)
         {
             if (!AssetManager.Instance.IsInitialized)
                 throw new AssetManagerInitializationException();
 
             //Try to get cached item
-            byte[] scriptBytes = _cacher.GetCachedScriptBytes(scriptContent.Id);
+            byte[] scriptBytes = _cacher.GetCachedScriptBytes(scriptMetaData.Id);
+
+            //If we were able to get a cached version, create an instance from that
             if (scriptBytes != null)
                 return CreateScriptFromSource(scriptBytes);
 
             //Build the syntax tree
             SyntaxTree[] syntaxTree =
             {
-                CSharpSyntaxTree.ParseText(scriptContent.Code)
+                CSharpSyntaxTree.ParseText(scriptMetaData.Code)
             };
 
             //Compile the tree
-            CSharpCompilation compilation = CSharpCompilation.Create(scriptContent.Id, syntaxTree, _assemblies, _compilationOptions);
+            CSharpCompilation compilation = CSharpCompilation.Create(scriptMetaData.Id, syntaxTree, _assemblies, _compilationOptions);
 
             //Stream the results to the internal assembly and create an instance
             using (MemoryStream stream = new MemoryStream())
@@ -250,7 +267,7 @@ namespace SeraphimEngine.Managers.Script
                 {
                     stream.Seek(0, SeekOrigin.Begin);
 
-                    _cacher.AddScriptToCache(scriptContent.Id, stream, out scriptBytes);
+                    _cacher.AddScriptToCache(scriptMetaData.Id, stream, out scriptBytes);
                     return CreateScriptFromSource(scriptBytes);
                 }
 
@@ -267,6 +284,11 @@ namespace SeraphimEngine.Managers.Script
             }
         }
 
+        /// <summary>
+        /// Creates the script from source.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns>IScript.</returns>
         private IScript CreateScriptFromSource(byte[] bytes)
         {
             Assembly asm = Assembly.Load(bytes);
@@ -278,16 +300,14 @@ namespace SeraphimEngine.Managers.Script
             return (IScript) Activator.CreateInstance(type);
         }
 
-        private readonly IDictionary<string, Task> _compilationTasks = new Dictionary<string, Task>();
-
         /// <summary>
         /// Preloads the scripts.
         /// </summary>
         private void PreloadScripts()
         {
-            _scriptContentContent = AssetManager.Instance.GetAllAssets<SeraphimScriptContent>(CONTENT_DIRECTORY);
+            _scriptMetaDataMetaData = AssetManager.Instance.GetAllAssets<ScriptMetaData>(CONTENT_DIRECTORY);
 
-            foreach (SeraphimScriptContent scriptContent in _scriptContentContent)
+            foreach (ScriptMetaData scriptContent in _scriptMetaDataMetaData)
                 _compilationTasks.Add(scriptContent.Id, GetCompileTask(scriptContent));
 
             foreach (Task task in _compilationTasks.Values)
@@ -297,11 +317,11 @@ namespace SeraphimEngine.Managers.Script
         /// <summary>
         /// Gets the compile task.
         /// </summary>
-        /// <param name="scriptContent">Content of the script.</param>
+        /// <param name="scriptMetaData">Content of the script.</param>
         /// <returns>Task.</returns>
-        private Task GetCompileTask([NotNull] SeraphimScriptContent scriptContent)
+        private Task GetCompileTask([NotNull] ScriptMetaData scriptMetaData)
         {
-            return new Task(() => _scripts.Add(CompileScript(scriptContent)));
+            return new Task(() => _scripts.Add(CompileScript(scriptMetaData)));
         }
 
         #endregion

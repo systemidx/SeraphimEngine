@@ -13,7 +13,7 @@ namespace SeraphimEngine.TestGame.Scenes
     {
         private Texture2D _textureBackground;
 
-        public Test(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport)
+        public Test(GraphicsDevice graphics) : base(graphics)
         {
         }
 

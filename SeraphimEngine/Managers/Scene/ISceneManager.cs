@@ -2,6 +2,7 @@
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using SeraphimEngine.Scene;
+using Camera2D = SeraphimEngine.Camera.Camera2D;
 
 namespace SeraphimEngine.Managers.Scene
 {
@@ -21,6 +22,12 @@ namespace SeraphimEngine.Managers.Scene
         /// </summary>
         /// <value>The current scene.</value>
         IScene CurrentScene { get; }
+
+        /// <summary>
+        /// Gets the camera.
+        /// </summary>
+        /// <value>The camera.</value>
+        Camera2D Camera { get; }
 
         /// <summary>
         /// Switches the scene.

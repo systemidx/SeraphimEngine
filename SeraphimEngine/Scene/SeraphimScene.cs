@@ -30,26 +30,14 @@ namespace SeraphimEngine.Scene
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Gets the scene camera.
-        /// </summary>
-        /// <value>The scene camera.</value>
-        public Camera2D SceneCamera { get; }
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeraphimScene"/> class.
         /// </summary>
         /// <param name="graphics">The graphics.</param>
-        /// <param name="viewport">The viewport.</param>
-        protected SeraphimScene(GraphicsDevice graphics, ViewportAdapter viewport)
+        protected SeraphimScene(GraphicsDevice graphics)
         {
-            SceneCamera = new Camera2D(viewport);
             Graphics = graphics;
         }
 

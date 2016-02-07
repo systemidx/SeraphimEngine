@@ -9,13 +9,10 @@ namespace SeraphimEngine.TestGame.Scenes
 {
     public class InitialSeraphimScene : Scene.SeraphimScene
     {
-        private TiledMap map;
-
-        public InitialSeraphimScene(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport) {}
+        public InitialSeraphimScene(GraphicsDevice graphics) : base(graphics) {}
 
         public override void Load()
         {
-            map = AssetManager.Instance.GetAsset<TiledMap>("Maps", "InitialScene");
         }
 
         public override void Unload()
@@ -30,8 +27,6 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            map.Draw(this.SceneCamera);
-
             base.Draw(gameTime);
         }
     }

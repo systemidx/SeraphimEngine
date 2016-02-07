@@ -14,7 +14,7 @@ namespace SeraphimEngine.TestGame.Scenes
     {
         private Texture2D _textureBackground;
 
-        public StartMenu(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport) { }
+        public StartMenu(GraphicsDevice graphics) : base(graphics) { }
 
         public override void Load()
         {

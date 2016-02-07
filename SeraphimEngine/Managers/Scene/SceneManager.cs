@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
+using SeraphimEngine.Camera;
 using SeraphimEngine.Exceptions;
 using SeraphimEngine.Scene;
 
@@ -42,6 +43,12 @@ namespace SeraphimEngine.Managers.Scene
         public IScene CurrentScene { get; private set; }
 
         /// <summary>
+        /// Gets the camera.
+        /// </summary>
+        /// <value>The camera.</value>
+        public Camera2D Camera { get; private set; }
+
+        /// <summary>
         /// Gets a value indicating whether this instance is initialized.
         /// </summary>
         /// <value><c>true</c> if this instance is initialized; otherwise, <c>false</c>.</value>
@@ -60,7 +67,9 @@ namespace SeraphimEngine.Managers.Scene
         {
             _content = content;
             _graphics = graphics;
-            ViewportAdapter = new ScalingViewportAdapter(graphics, 1920, 1080);
+
+            ViewportAdapter = new ScalingViewportAdapter(graphics, 320, 240);
+            Camera = new Camera2D(ViewportAdapter);
 
             IsInitialized = true;
         }
@@ -110,7 +119,7 @@ namespace SeraphimEngine.Managers.Scene
             if (!IsInitialized)
                 throw new SceneManagerInitializationException();
 
-            IScene scene = (IScene) Activator.CreateInstance(t, _graphics, ViewportAdapter);
+            IScene scene = (IScene) Activator.CreateInstance(t, _graphics);
             if (scene == null)
                 throw new SceneInitializationException();
 

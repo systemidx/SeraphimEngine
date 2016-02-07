@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <CacheDirectory>Cache\</CacheDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -130,12 +131,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera\Camera2D.cs" />
     <Compile Include="Exceptions\GuiException.cs" />
     <Compile Include="Exceptions\ScriptManagerInitializationException.cs" />
     <Compile Include="Exceptions\ScriptCodeException.cs" />
     <Compile Include="Exceptions\ScriptNotRegisteredException.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuIndexAction.cs" />
     <Compile Include="Gui\Menu\MenuChoiceMetadata.cs" />
+    <Compile Include="Gui\Splash\ISplashScreen.cs" />
+    <Compile Include="Gui\Splash\SplashScreen.cs" />
     <Compile Include="Helpers\Asset\ContainerHelper.cs" />
     <Compile Include="Helpers\Asset\TextureFadeDirection.cs" />
     <Compile Include="Helpers\Asset\TextureFader.cs" />
@@ -167,6 +171,15 @@
     <Compile Include="Gui\Menu\MenuPosition.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuPositionVertical.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuPositionHorizontal.cs" />
+    <Compile Include="Map\ConversionObjects\TiledMapConverter.cs" />
+    <Compile Include="Map\ISeraphimLayer.cs" />
+    <Compile Include="Map\ISeraphimMap.cs" />
+    <Compile Include="Map\ISeraphimTile.cs" />
+    <Compile Include="Map\ISeraphimTileFrame.cs" />
+    <Compile Include="Map\SeraphimLayer.cs" />
+    <Compile Include="Map\SeraphimMap.cs" />
+    <Compile Include="Map\SeraphimTile.cs" />
+    <Compile Include="Map\SeraphimTileFrame.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Managers\Scene\ISceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -200,4 +213,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="CacheClean" AfterTargets="Clean">
+    <RemoveDir Directories="$(CacheDirectory)" />
+  </Target>
 </Project>

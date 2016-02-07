@@ -105,11 +105,6 @@
 /processorParam:TextureFormat=Color
 /build:Fonts/Default.spritefont
 
-#begin Maps/InitialScene.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/InitialScene.tmx
-
 #begin Maps/Tilesets/Outside_A2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -146,4 +141,9 @@
 /importer:ScriptImporter
 /processor:ScriptProcessor
 /build:Scripts/Scene/Scene_Test.cs
+
+#begin Maps/TestTiledMap.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/TestTiledMap.tmx
 

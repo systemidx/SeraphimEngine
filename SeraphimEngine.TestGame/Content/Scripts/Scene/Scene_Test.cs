@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using SeraphimEngine.Gui.Menu;
+using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Scene;
-using SeraphimEngine.Scene;
 using SeraphimEngine.Script;
 using SeraphimEngine.TestGame.Scenes;
 

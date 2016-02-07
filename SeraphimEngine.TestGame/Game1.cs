@@ -51,7 +51,7 @@ namespace SeraphimEngine.TestGame
         protected override void LoadContent()
         {
 #if DEBUG
-            SceneManager.Instance.SwitchScene(typeof(StartMenu));
+            SceneManager.Instance.SwitchScene(typeof(Splash));
 #else
             SceneManager.Instance.SwitchScene(typeof(Splash));
 #endif

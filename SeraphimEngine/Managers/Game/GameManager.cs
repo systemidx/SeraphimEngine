@@ -85,9 +85,9 @@ namespace SeraphimEngine.Managers.Game
         public void StartDrawing()
         {
             _graphics.Clear(Color.Black);
-            SpriteBatch.Begin(transformMatrix: SceneManager.Instance.CurrentScene.SceneCamera.GetViewMatrix());
+            SpriteBatch.Begin(transformMatrix: SceneManager.Instance.Camera.ViewMatrix);
         }
-
+        
         /// <summary>
         /// Stops the drawing.
         /// </summary>

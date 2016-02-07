@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using SeraphimEngine.Managers.Scene;
-using SeraphimEngine.Scene;
 using SeraphimEngine.Script;
 using SeraphimEngine.TestGame.Scenes;
 

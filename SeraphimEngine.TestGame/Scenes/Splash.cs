@@ -1,39 +1,29 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended.ViewportAdapters;
-using SeraphimEngine.Helpers.Asset;
+using SeraphimEngine.ContentPipeline.TiledMap;
+using SeraphimEngine.Gui.Splash;
 using SeraphimEngine.Managers.Asset;
-using SeraphimEngine.Managers.Game;
-using SeraphimEngine.Managers.Input;
-using SeraphimEngine.Managers.Scene;
+using SeraphimEngine.Map;
+using SeraphimEngine.Map.ConversionObjects;
 
 namespace SeraphimEngine.TestGame.Scenes
 {
     public class Splash : Scene.SeraphimScene
     {
-        private Song _splashMusic;
+        private SplashScreen _engine;
+        private SplashScreen _studio;
 
-        private readonly TextureFader _poweredByFader = new TextureFader();
-        private bool _poweredByScreenFadedOut = false;
-        private bool _poweredByScreenPlaying = false;
-        private Texture2D _poweredByTexture;
+        public Splash(GraphicsDevice graphics) : base(graphics)
+        {
+        }
 
-        private readonly TextureFader _studioFader = new TextureFader();
-        private bool _studioScreenFadedOut = false;
-        private bool _studioScreenPlaying = false;
-        private Texture2D _studioTexture;
-
-        public Splash(GraphicsDevice graphics, ViewportAdapter viewport) : base(graphics, viewport) {}
-
+        private ISeraphimMap map;
+        
         public override void Load()
         {
-            _poweredByTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash", "engine");
-            _studioTexture = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/splash", "studio");
-            _splashMusic = AssetManager.Instance.GetAsset<Song>("music", "splash");
-            _studioScreenPlaying = true;
+            TiledMap tiledMap = AssetManager.Instance.GetAsset<TiledMap>("Maps", "TestTiledMap");
+            map = new TiledMapConverter().Convert(tiledMap);
         }
 
         public override void Unload()
@@ -42,51 +32,19 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Update(GameTime gameTime)
         {
-            if (MediaPlayer.State == MediaState.Stopped) { 
-                MediaPlayer.Play(_splashMusic);
-                MediaPlayer.IsRepeating = true;
-            }
+            map.Update(gameTime);
+            map.MoveBy(new Vector2(1, 1));
 
-            if (_studioScreenPlaying)
-            {
-                _studioFader.Update(gameTime);
-
-                if (_studioFader.DoneFading) {
-                    if (!_studioScreenFadedOut) { 
-                        _studioFader.ChangeDirection();
-                        _studioScreenFadedOut = true;
-                        return;
-                    }
-
-                    _studioScreenPlaying = false;
-                    _poweredByScreenPlaying = true;
-                }
-            }
-
-            if (_poweredByScreenPlaying)
-            {
-                _poweredByFader.Update(gameTime);
-                if (!_poweredByFader.DoneFading)
-                    return;
-
-                if (!_poweredByScreenFadedOut)
-                {
-                    _poweredByFader.ChangeDirection();
-                    _poweredByScreenFadedOut = true;
-                    return;
-                }
-
-                SceneManager.Instance.SwitchScene(typeof(StartMenu));
-            }
+            //SceneManager.Instance.Camera.MoveBy(new Vector2(1, 0));
+            //_engine.Update(gameTime);
+            //_studio.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            if (_studioScreenPlaying)
-                GameManager.Instance.SpriteBatch.Draw(_studioTexture, Vector2.Zero, Color.White * _studioFader.FadeAlpha);
-            
-            if (_poweredByScreenPlaying)
-                GameManager.Instance.SpriteBatch.Draw(_poweredByTexture, Vector2.Zero, Color.White * _poweredByFader.FadeAlpha);
+            map.Draw(gameTime);
+            //_engine.Draw(gameTime);
+            //_studio.Draw(gameTime);
         }
     }
 }

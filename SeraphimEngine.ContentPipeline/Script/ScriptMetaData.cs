@@ -1,9 +1,9 @@
-﻿namespace SeraphimEngine.ContentPipeline.ContentObjects
+﻿namespace SeraphimEngine.ContentPipeline.Script
 {
     /// <summary>
-    /// Class SeraphimScriptContent.
+    /// Class ScriptMetaData.
     /// </summary>
-    public class SeraphimScriptContent
+    public class ScriptMetaData
     {
         /// <summary>
         /// The identifier
