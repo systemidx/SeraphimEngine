@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SeraphimEngine.Helpers;
+using SeraphimEngine.Definitions;
+using SeraphimEngine.Helpers.Definitions;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Scene;
 
@@ -21,18 +21,22 @@ namespace SeraphimEngine.Map
         public SeraphimTileFrame(Texture2D sourceTexture, Rectangle sourceRectangle, Rectangle destinationRectangle)
         {
             SourceTexture = sourceTexture;
-            SourceRectangle = sourceRectangle;
-            DestinationRectangle = destinationRectangle;
+            SourceRectangle = sourceRectangle.ToRectangleF();
+            DestinationRectangle = destinationRectangle.ToRectangleF();
         }
 
+        /// <summary>
+        /// Draws the specified game time.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
         public void Draw(GameTime gameTime)
         {
             if (SceneManager.Instance.Camera.IsInCameraView(DestinationRectangle))
-                GameManager.Instance.SpriteBatch.Draw(SourceTexture, destinationRectangle: DestinationRectangle, sourceRectangle: SourceRectangle, origin: SceneManager.Instance.Camera.Origin);
+                GameManager.Instance.SpriteBatch.Draw(SourceTexture, DestinationRectangle.ToRectangle(), SourceRectangle.ToRectangle(), Color.White, 0.0f, SceneManager.Instance.Camera.Origin, SpriteEffects.None, 0.0f);
         }
 
         public Texture2D SourceTexture { get; }
-        public Rectangle SourceRectangle { get; }
-        public Rectangle DestinationRectangle { get; }
+        public RectangleF SourceRectangle { get; }
+        public RectangleF DestinationRectangle { get; }
     }
 }

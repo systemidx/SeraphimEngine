@@ -24,7 +24,7 @@ namespace SeraphimEngine.TestGame.Scenes
         {
             _textureBackground = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/StartMenu", "bg");
 
-            RegisterMenu(new MenuGui(
+            LoadMenu(new MenuGui(
                             "test", 
                             new MenuPosition(MenuPositionHorizontal.Center, MenuPositionVertical.Center, true),
                             true,

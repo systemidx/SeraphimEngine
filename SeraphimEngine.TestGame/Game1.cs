@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Xml;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SeraphimEngine.ContentPipeline.TiledMap;
 using SeraphimEngine.Input;
 using SeraphimEngine.Input.Enumerations;
+using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Input;
 using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.Managers.Script;
+using SeraphimEngine.Map;
+using SeraphimEngine.Map.ConversionObjects;
 using SeraphimEngine.TestGame.Scenes;
 
 namespace SeraphimEngine.TestGame
@@ -16,19 +22,18 @@ namespace SeraphimEngine.TestGame
     public class Game1 : Game
     {
         private readonly GraphicsDeviceManager _graphics;
+        private readonly Point _resolution = new Point(1280, 720);
 
         public Game1() {
-            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-#if DEBUG
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = _resolution.X,
+                PreferredBackBufferHeight = _resolution.Y,
+                PreferMultiSampling = true
+            };
             _graphics.ApplyChanges();
-#else
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.ApplyChanges();
-#endif
         }
 
         /// <summary>
@@ -50,11 +55,7 @@ namespace SeraphimEngine.TestGame
         /// </summary>
         protected override void LoadContent()
         {
-#if DEBUG
-            SceneManager.Instance.SwitchScene(typeof(Splash));
-#else
-            SceneManager.Instance.SwitchScene(typeof(Splash));
-#endif
+            SceneManager.Instance.SwitchScene(typeof(InitialSeraphimScene));
         }
 
         /// <summary>
@@ -72,13 +73,14 @@ namespace SeraphimEngine.TestGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GameManager.Instance.ShouldExit) {
+            if (GameManager.Instance.ShouldExit)
+            {
                 try
                 {
                     Exit();
                 }
                 //hack: This is necessary due to a bug in SharpDX in which Exit() causes a null ref exception upon unloading
-                catch(NullReferenceException) { }
+                catch (NullReferenceException) { }
             }
 
             if (InputManager.Instance.IsActionDown(GameAction.FullScreen))
@@ -90,7 +92,7 @@ namespace SeraphimEngine.TestGame
             GameManager.Instance.Update(gameTime);
             base.Update(gameTime);
         }
-
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -98,10 +100,8 @@ namespace SeraphimEngine.TestGame
         protected override void Draw(GameTime gameTime)
         {
             GameManager.Instance.StartDrawing();
-
             SceneManager.Instance.Draw(gameTime);
             ScriptManager.Instance.Draw(gameTime);
-
             GameManager.Instance.StopDrawing();
 
             base.Draw(gameTime);

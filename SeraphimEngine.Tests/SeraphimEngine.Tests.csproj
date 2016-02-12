@@ -63,6 +63,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Camera\Camera2DTests.cs" />
+    <Compile Include="Definitions\RectangleFTests.cs" />
     <Compile Include="Helpers\Asset\ContainerHelperTests.cs" />
     <Compile Include="Helpers\Asset\TextureFaderTests.cs" />
     <Compile Include="Managers\Asset\AssetManagerTests.cs" />

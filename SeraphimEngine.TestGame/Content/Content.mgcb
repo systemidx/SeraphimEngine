@@ -142,8 +142,78 @@
 /processor:ScriptProcessor
 /build:Scripts/Scene/Scene_Test.cs
 
+#begin Menu/MainMenu.xml
+/importer:MenuImporter
+/processor:MenuProcessor
+/build:Menu/MainMenu.xml
+
+#begin Maps/Test2.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/Test2.tmx
+
 #begin Maps/TestTiledMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:Maps/TestTiledMap.tmx
+
+#begin Maps/Tilesets/Outside_A1_64.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Maps/Tilesets/Outside_A1_64.png
+
+#begin Maps/Tilesets/Outside_A2_64.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Maps/Tilesets/Outside_A2_64.png
+
+#begin Textures/Test.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/Test.png
+
+#begin Maps/Tilesets/Outside_A1_32.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Maps/Tilesets/Outside_A1_32.png
+
+#begin Maps/Tilesets/Outside_A2_32.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Maps/Tilesets/Outside_A2_32.png
+
+#begin Menu/TestMenu.xml
+/importer:MenuImporter
+/processor:MenuProcessor
+/build:Menu/TestMenu.xml
 

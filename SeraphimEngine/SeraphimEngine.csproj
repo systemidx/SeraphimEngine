@@ -132,10 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\Camera2D.cs" />
+    <Compile Include="Definitions\RectangleF.cs" />
     <Compile Include="Exceptions\GuiException.cs" />
     <Compile Include="Exceptions\ScriptManagerInitializationException.cs" />
     <Compile Include="Exceptions\ScriptCodeException.cs" />
     <Compile Include="Exceptions\ScriptNotRegisteredException.cs" />
+    <Compile Include="Gui\Menu\ConversionObjects\MenuConverter.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuIndexAction.cs" />
     <Compile Include="Gui\Menu\MenuChoiceMetadata.cs" />
     <Compile Include="Gui\Splash\ISplashScreen.cs" />
@@ -143,6 +145,8 @@
     <Compile Include="Helpers\Asset\ContainerHelper.cs" />
     <Compile Include="Helpers\Asset\TextureFadeDirection.cs" />
     <Compile Include="Helpers\Asset\TextureFader.cs" />
+    <Compile Include="Helpers\Definitions\RectangleFExtensions.cs" />
+    <Compile Include="Helpers\Definitions\RectangleExtensions.cs" />
     <Compile Include="Helpers\SpriteBatch\SpriteBatchExtensions.cs" />
     <Compile Include="Input\Enumerations\GameActionInputDevice.cs" />
     <Compile Include="Input\IGameActionInputMapping.cs" />
@@ -171,7 +175,9 @@
     <Compile Include="Gui\Menu\MenuPosition.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuPositionVertical.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuPositionHorizontal.cs" />
+    <Compile Include="Map\ConversionObjects\TiledLayerConverter.cs" />
     <Compile Include="Map\ConversionObjects\TiledMapConverter.cs" />
+    <Compile Include="Map\ConversionObjects\TiledTileConverter.cs" />
     <Compile Include="Map\ISeraphimLayer.cs" />
     <Compile Include="Map\ISeraphimMap.cs" />
     <Compile Include="Map\ISeraphimTile.cs" />

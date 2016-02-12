@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Menu OnActionClose="true">
+  <Id>TestMenu</Id>
+  <Position X="0" Y="0" Center="false"></Position>
+  <Choices>
+    <Choice Script="Scene_Start_Menu_Start" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">A</Choice>
+    <Choice Script="Scene_Start_Menu_Exit" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">B</Choice>
+  </Choices>
+</Menu>

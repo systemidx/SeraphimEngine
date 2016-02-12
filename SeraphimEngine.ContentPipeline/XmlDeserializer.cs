@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace SeraphimEngine.ContentPipeline.TiledMap.Serialization
+namespace SeraphimEngine.ContentPipeline
 {
     public abstract class XmlDeserializer<TModel>
     {

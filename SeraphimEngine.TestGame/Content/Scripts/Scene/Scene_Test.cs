@@ -14,7 +14,7 @@ namespace SeraphimEngine.TestGame.Content.Scripts.Scene
     {
         public override void Start(bool runOnce = false)
         {
-            SceneManager.Instance.CurrentScene.RegisterMenu(
+            SceneManager.Instance.CurrentScene.LoadMenu(
                 new MenuGui(
                     "nested-test",
                     new MenuPosition(Vector2.Zero),

@@ -97,6 +97,9 @@ namespace SeraphimEngine.Managers.Script
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
 
+            while (_scripts == null)
+                Thread.Sleep(10);
+
             //Get the index of the script
             int idx = ((List<IScript>) _scripts).FindIndex(x => x.GetType().Name == script.Name);
             if (idx > -1)
@@ -187,8 +190,16 @@ namespace SeraphimEngine.Managers.Script
             if (_scripts == null)
                 return;
 
-            foreach (var script in _scripts.Where(x => x.IsRunning))
-                script.Update(gameTime);
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for (int index = 0; index < _scripts.Count; index++)
+            {
+                var script = _scripts[index];
+                if (script == null)
+                    continue;
+
+                if (script.IsRunning)
+                    script.Update(gameTime);
+            }
         }
 
         /// <summary>
@@ -200,8 +211,16 @@ namespace SeraphimEngine.Managers.Script
             if (_scripts == null)
                 return;
 
-            foreach (var script in _scripts.Where(x => x.IsRunning))
-                script.Draw(gameTime);
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for (int index = 0; index < _scripts.Count; index++)
+            {
+                var script = _scripts[index];
+                if (script == null)
+                    continue;
+
+                if (script.IsRunning)
+                    script.Draw(gameTime);
+            }
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using SeraphimEngine.Definitions;
 
 namespace SeraphimEngine.Map
 {
@@ -16,12 +17,12 @@ namespace SeraphimEngine.Map
         /// Gets the source rectangle.
         /// </summary>
         /// <value>The source rectangle.</value>
-        Rectangle SourceRectangle { get; }
+        RectangleF SourceRectangle { get; }
 
         /// <summary>
         /// Gets the destination rectangle.
         /// </summary>
         /// <value>The destination rectangle.</value>
-        Rectangle DestinationRectangle { get; }
+        RectangleF DestinationRectangle { get; }
     }
 }

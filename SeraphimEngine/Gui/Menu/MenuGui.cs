@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -17,22 +18,67 @@ namespace SeraphimEngine.Gui.Menu
     /// </summary>
     public class MenuGui : IMenuGui
     {
+        #region Variables
+
+        /// <summary>
+        /// The menu container
+        /// </summary>
         private MenuContainer _container;
 
+        /// <summary>
+        /// The position
+        /// </summary>
         private readonly MenuPosition _position;
+
+        /// <summary>
+        /// The choices
+        /// </summary>
         private readonly IList<MenuChoice> _choices = new List<MenuChoice>();
+
+        /// <summary>
+        /// The meta data
+        /// </summary>
         private readonly IList<MenuChoiceMetaData> _metaData = new List<MenuChoiceMetaData>();
+
+        /// <summary>
+        /// The flag which determines to close the menu on an action event
+        /// </summary>
         private readonly bool _unloadMenuOnAction;
 
-        private int _index;
+        /// <summary>
+        /// The choice index
+        /// </summary>
+        private int _choiceIndex;
+
+        /// <summary>
+        /// The container buffer
+        /// </summary>
         private Vector2 _containerBuffer;
 
-        // ReSharper disable once InconsistentNaming
-        private int _choiceCount => _choices.Count - 1;
+        #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
         public string Id { get; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is visible.
+        /// </summary>
+        /// <value><c>true</c> if this instance is visible; otherwise, <c>false</c>.</value>
         public bool IsVisible { get; set; } = true;
+
+        // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// Gets or sets the choice count.
+        /// </summary>
+        /// <value>The _choice count.</value>
+        private int _choiceCount => _choices.Count - 1;
+
+        #endregion
 
         #region Constructor
 
@@ -43,8 +89,11 @@ namespace SeraphimEngine.Gui.Menu
         /// <param name="position">The position.</param>
         /// <param name="unloadMenuOnAction">if set to <c>true</c> [unload menu on action].</param>
         /// <param name="choices">The choices.</param>
-        public MenuGui(string id, [NotNull]MenuPosition position, bool unloadMenuOnAction = false, params MenuChoice[] choices)
+        public MenuGui(string id, MenuPosition position, bool unloadMenuOnAction = false, params MenuChoice[] choices)
         {
+            if (position == null)
+                throw new ArgumentNullException();
+
             Id = id;
 
             foreach (MenuChoice choice in choices)
@@ -84,7 +133,7 @@ namespace SeraphimEngine.Gui.Menu
 
             for (int i = 0; i < _choices.Count; ++i)
             {
-                if (_index == i)
+                if (_choiceIndex == i)
                     GameManager.Instance.SpriteBatch.Draw(GuiManager.Instance.GuiCursorTexture, _metaData[i].CursorPosition, Color.White);
 
                 GameManager.Instance.SpriteBatch.DrawShadowedText(_choices[i].Text, GuiManager.Instance.GuiFont, _metaData[i].TextPosition, Color.White);
@@ -128,11 +177,19 @@ namespace SeraphimEngine.Gui.Menu
         {
             for (int i = 0; i < _choices.Count; ++i)
             {
-                MenuChoiceMetaData meta = new MenuChoiceMetaData();
+                Vector2 textSize = GuiManager.Instance.GuiFont.MeasureString(_choices[i].Text);
 
-                meta.TextSize = GuiManager.Instance.GuiFont.MeasureString(_choices[i].Text);
-                meta.TextPosition = new Vector2(_position.Position.X + _containerBuffer.X, i * meta.TextSize.Y + _containerBuffer.Y + _position.Position.Y);
-                meta.CursorPosition = new Vector2(_position.Position.X + _containerBuffer.X + meta.TextSize.X, (i * meta.TextSize.Y) + meta.TextSize.Y / 2 + _containerBuffer.Y + _position.Position.Y);
+                MenuChoiceMetaData meta = new MenuChoiceMetaData
+                {
+                    TextSize = textSize,
+                    TextPosition =
+                        new Vector2(_position.Position.X + _containerBuffer.X,
+                            i*textSize.Y + _containerBuffer.Y + _position.Position.Y),
+                    CursorPosition =
+                        new Vector2(_position.Position.X + _containerBuffer.X + textSize.X,
+                            (i*textSize.Y) + textSize.Y/2 + _containerBuffer.Y + _position.Position.Y)
+                };
+
 
                 _metaData.Add(meta);
             }
@@ -143,7 +200,7 @@ namespace SeraphimEngine.Gui.Menu
         /// </summary>
         private void Accept()
         {
-            _choices[_index].Accept();
+            _choices[_choiceIndex].Accept();
 
             if (_unloadMenuOnAction)
                 SceneManager.Instance.CurrentScene.UnloadMenu(this.Id);
@@ -155,9 +212,9 @@ namespace SeraphimEngine.Gui.Menu
         /// <param name="action">The action.</param>
         private void ChangeIndex(MenuIndexAction action)
         {
-            _index = action == MenuIndexAction.Increment
-                ? (_index == _choiceCount ? 0 : _index + 1)
-                : (_index == 0 ? _choiceCount : _index - 1);
+            _choiceIndex = action == MenuIndexAction.Increment
+                ? (_choiceIndex == _choiceCount ? 0 : _choiceIndex + 1)
+                : (_choiceIndex == 0 ? _choiceCount : _choiceIndex - 1);
         }
     }
 }

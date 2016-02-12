@@ -24,7 +24,7 @@ namespace SeraphimEngine.Scene
         /// Registers the menu.
         /// </summary>
         /// <param name="menu">The menu.</param>
-        void RegisterMenu(IMenuGui menu);
+        void LoadMenu(IMenuGui menu);
 
         /// <summary>
         /// Unloads the menu.

@@ -68,7 +68,9 @@ namespace SeraphimEngine.Managers.Scene
             _content = content;
             _graphics = graphics;
 
-            ViewportAdapter = new ScalingViewportAdapter(graphics, 320, 240);
+            //ViewportAdapter = new ScalingViewportAdapter(graphics, 1920, 1080);
+            ViewportAdapter = new ScalingViewportAdapter(graphics, 1280, 720);
+            
             Camera = new Camera2D(ViewportAdapter);
 
             IsInitialized = true;

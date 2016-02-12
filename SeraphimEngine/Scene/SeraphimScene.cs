@@ -4,9 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using MonoGame.Extended.ViewportAdapters;
-using SeraphimEngine.Gui;
 using SeraphimEngine.Gui.Menu;
 
 namespace SeraphimEngine.Scene
@@ -85,7 +82,7 @@ namespace SeraphimEngine.Scene
         /// Registers the menu.
         /// </summary>
         /// <param name="menu">The menu.</param>
-        public void RegisterMenu([NotNull]IMenuGui menu)
+        public void LoadMenu([NotNull]IMenuGui menu)
         {
             if (_menus.Any(x => string.Equals(x.Id, menu.Id, StringComparison.InvariantCultureIgnoreCase)))
                 return;

@@ -56,6 +56,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu\MenuChoiceData.cs" />
+    <Compile Include="Menu\MenuData.cs" />
+    <Compile Include="Menu\Serialization\MenuDataDeserializer.cs" />
+    <Compile Include="Menu\Serialization\MenuImporter.cs" />
+    <Compile Include="Menu\Serialization\MenuProcessor.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Script\ScriptMetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +77,7 @@
     <Compile Include="TiledMap\TiledMapTileset.cs" />
     <Compile Include="TiledMap\TiledMapTilesetTileFrame.cs" />
     <Compile Include="TiledMap\TiledMapTilesetTile.cs" />
-    <Compile Include="TiledMap\Serialization\XmlDeserializer.cs" />
+    <Compile Include="XmlDeserializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

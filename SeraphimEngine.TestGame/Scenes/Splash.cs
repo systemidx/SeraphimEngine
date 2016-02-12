@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SeraphimEngine.ContentPipeline.TiledMap;
 using SeraphimEngine.Gui.Splash;
 using SeraphimEngine.Managers.Asset;
+using SeraphimEngine.Managers.Scene;
 using SeraphimEngine.Map;
 using SeraphimEngine.Map.ConversionObjects;
 
@@ -13,17 +14,16 @@ namespace SeraphimEngine.TestGame.Scenes
     {
         private SplashScreen _engine;
         private SplashScreen _studio;
+        
 
-        public Splash(GraphicsDevice graphics) : base(graphics)
-        {
-        }
-
-        private ISeraphimMap map;
+        public Splash(GraphicsDevice graphics) : base(graphics) {}
         
         public override void Load()
         {
-            TiledMap tiledMap = AssetManager.Instance.GetAsset<TiledMap>("Maps", "TestTiledMap");
-            map = new TiledMapConverter().Convert(tiledMap);
+            _engine = new SplashScreen(() => _studio.Show(), "splash", "Music", "Textures/Scenes/Splash", "engine");
+            _studio = new SplashScreen(() => SceneManager.Instance.SwitchScene(typeof(InitialSeraphimScene)), "splash", "Music", "Textures/Scenes/Splash", "studio");
+
+            _engine.Show();
         }
 
         public override void Unload()
@@ -32,19 +32,14 @@ namespace SeraphimEngine.TestGame.Scenes
 
         public override void Update(GameTime gameTime)
         {
-            map.Update(gameTime);
-            map.MoveBy(new Vector2(1, 1));
-
-            //SceneManager.Instance.Camera.MoveBy(new Vector2(1, 0));
-            //_engine.Update(gameTime);
-            //_studio.Update(gameTime);
+            _engine.Update(gameTime);
+            _studio.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            map.Draw(gameTime);
-            //_engine.Draw(gameTime);
-            //_studio.Draw(gameTime);
+            _engine.Draw(gameTime);
+            _studio.Draw(gameTime);
         }
     }
 }

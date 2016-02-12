@@ -6,6 +6,7 @@ using SeraphimEngine.Helpers.Asset;
 using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Gui;
+using SeraphimEngine.Managers.Scene;
 
 namespace SeraphimEngine.Gui.Splash
 {
@@ -78,7 +79,10 @@ namespace SeraphimEngine.Gui.Splash
             if (!IsShowing)
                 return;
 
-            GameManager.Instance.SpriteBatch.Draw(_image, Vector2.Zero, Color.White * _fader.FadeAlpha);
+            GameManager.Instance.SpriteBatch.Draw(
+                texture: _image,
+                color: Color.White * _fader.FadeAlpha, 
+                destinationRectangle: new Rectangle(0, 0, (int)SceneManager.Instance.Camera.VirtualResolution.X, (int)SceneManager.Instance.Camera.VirtualResolution.Y));
         }
 
         /// <summary>

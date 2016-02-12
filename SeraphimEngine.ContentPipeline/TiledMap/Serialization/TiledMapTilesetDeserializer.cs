@@ -21,7 +21,7 @@ namespace SeraphimEngine.ContentPipeline.TiledMap.Serialization
                 ImageSourceHeight = Convert.ToInt32(element["image"].GetAttribute("height")),
                 ImageSourceWidth = Convert.ToInt32(element["image"].GetAttribute("width"))
             };
-
+            
             XmlNodeList tilesetTileNodeList = element.SelectNodes("tile");
             if (tilesetTileNodeList.Count > 0)
             {
@@ -35,13 +35,10 @@ namespace SeraphimEngine.ContentPipeline.TiledMap.Serialization
                     XmlNodeList objectGroupNodeList = tilesetTileElement.SelectNodes("objectgroup");
                     if (objectGroupNodeList.Count > 0)
                     {
-                        tile.CollisionOrigin = new Vector2(
-                            float.Parse(objectGroupNodeList[0]["object"].GetAttribute("x")), 
-                            float.Parse(objectGroupNodeList[0]["object"].GetAttribute("y")));
-
-                        tile.CollisionDimensions = new Vector2(
-                            float.Parse(objectGroupNodeList[0]["object"].GetAttribute("width")),
-                            float.Parse(objectGroupNodeList[0]["object"].GetAttribute("height")));
+                        float.TryParse(objectGroupNodeList[0]["object"].GetAttribute("x"), out tile.CollisionOriginX);
+                        float.TryParse(objectGroupNodeList[0]["object"].GetAttribute("y"), out tile.CollisionOriginY);
+                        float.TryParse(objectGroupNodeList[0]["object"].GetAttribute("width"), out tile.CollisionDimensionsX);
+                        float.TryParse(objectGroupNodeList[0]["object"].GetAttribute("height"), out tile.CollisionDimensionsY);
                     }
 
                     //Get the animation frames

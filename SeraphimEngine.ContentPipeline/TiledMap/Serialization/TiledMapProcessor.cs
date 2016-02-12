@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Diagnostics;
+using System.Xml;
 using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace SeraphimEngine.ContentPipeline.TiledMap.Serialization
@@ -7,7 +9,7 @@ namespace SeraphimEngine.ContentPipeline.TiledMap.Serialization
     /// Class ScriptProcessor.
     /// </summary>
     [ContentProcessor(DisplayName = "Seraphim Processor - Tiled Map")]
-    public class TiledMapProcessor : ContentProcessor<string, TiledMap>
+    public class TiledMapProcessor : ContentProcessor<string, string>
     {
         /// <summary>
         /// Processes the specified input.
@@ -15,13 +17,9 @@ namespace SeraphimEngine.ContentPipeline.TiledMap.Serialization
         /// <param name="input">The input.</param>
         /// <param name="context">The context.</param>
         /// <returns>ScriptMetaData.</returns>
-        public override TiledMap Process(string input, ContentProcessorContext context)
+        public override string Process(string input, ContentProcessorContext context)
         {
-            XmlDocument document = new XmlDocument();
-            document.LoadXml(input);
-
-            TiledMapDeserializer deserializer = new TiledMapDeserializer();
-            return deserializer.Retrieve(document.DocumentElement);
+            return input;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -43,7 +42,8 @@ namespace SeraphimEngine.Managers.Input
             new GameActionInputMapping(GameAction.Right, Keys.D, Buttons.DPadRight),
             new GameActionInputMapping(GameAction.Right, Keys.Right, Buttons.LeftThumbstickRight),
             new GameActionInputMapping(GameAction.Down, Keys.S, Buttons.DPadDown),
-            new GameActionInputMapping(GameAction.Down, Keys.Down, Buttons.LeftThumbstickDown)
+            new GameActionInputMapping(GameAction.Down, Keys.Down, Buttons.LeftThumbstickDown),
+            new GameActionInputMapping(GameAction.FullScreen, Keys.F11, Buttons.BigButton)
         };
 
         /// <summary>

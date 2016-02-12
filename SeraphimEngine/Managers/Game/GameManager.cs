@@ -1,7 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SeraphimEngine.Input;
+using MonoGame.Extended;
+using SeraphimEngine.Definitions;
+using SeraphimEngine.Helpers.Definitions;
 using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Gui;
 using SeraphimEngine.Managers.Input;
@@ -21,6 +26,11 @@ namespace SeraphimEngine.Managers.Game
         /// The graphics device
         /// </summary>
         private GraphicsDevice _graphics;
+
+        /// <summary>
+        /// The rasterizer state
+        /// </summary>
+        private RasterizerState _rasterizerState;
 
         #endregion
 
@@ -56,13 +66,14 @@ namespace SeraphimEngine.Managers.Game
         public override void Initialize(ContentManager content, GraphicsDevice graphics)
         {
             _graphics = graphics;
-
+            
             InputManager.Instance.Initialize(content, graphics);
             SceneManager.Instance.Initialize(content, graphics);
             AssetManager.Instance.Initialize(content, graphics);
             ScriptManager.Instance.Initialize(content, graphics);
             GuiManager.Instance.Initialize(content, graphics);
 
+            _rasterizerState = new RasterizerState { MultiSampleAntiAlias = true };
             SpriteBatch = new SpriteBatch(graphics);
 
             IsInitialized = true;
@@ -78,16 +89,17 @@ namespace SeraphimEngine.Managers.Game
             ScriptManager.Instance.Update(gameTime);
             SceneManager.Instance.Update(gameTime);
         }
-
+        
         /// <summary>
         /// Starts the drawing.
         /// </summary>
         public void StartDrawing()
         {
-            _graphics.Clear(Color.Black);
-            SpriteBatch.Begin(transformMatrix: SceneManager.Instance.Camera.ViewMatrix);
+            _graphics.Clear(Color.TransparentBlack);
+
+            SpriteBatch.Begin(transformMatrix: SceneManager.Instance.Camera.ViewMatrix, rasterizerState: _rasterizerState);
         }
-        
+
         /// <summary>
         /// Stops the drawing.
         /// </summary>
