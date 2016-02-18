@@ -19,11 +19,11 @@ namespace SeraphimEngine.TestGame.Scenes
         public override void Load()
         {
             _textureBackground = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/StartMenu", "bg");
-            LoadMenu(new MenuGui("startMenu", 
-                            new MenuPosition(MenuPositionHorizontal.Center, MenuPositionVertical.Center, true),
-                            true,
-                            new MenuChoice("Start the Game", typeof(Content.Scripts.Scene.Scene_Start_Menu_Start)),
-                            new MenuChoice("Exit the Game", typeof(Content.Scripts.Scene.Scene_Start_Menu_Exit))));
+            //LoadMenu(new MenuGui("startMenu", 
+            //                new MenuGuiPosition(MenuPositionHorizontal.Center, MenuPositionVertical.Center, true),
+            //                true,
+            //                new MenuChoice("Start the Game", typeof(Content.Scripts.Scene.Scene_Start_Menu_Start)),
+            //                new MenuChoice("Exit the Game", typeof(Content.Scripts.Scene.Scene_Start_Menu_Exit))));
         }
 
         public override void Draw(GameTime gameTime)

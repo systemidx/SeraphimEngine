@@ -57,6 +57,46 @@ namespace SeraphimEngine.Definitions
             Height = height;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RectangleF" /> struct.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="dimensions">The dimensions.</param>
+        public RectangleF(Vector2 position, Vector2 dimensions)
+        {
+            X = position.X;
+            Y = position.Y;
+            Width = dimensions.X;
+            Height = dimensions.Y;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RectangleF" /> struct.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        public RectangleF(Vector2 position, float width, float height)
+        {
+            X = position.X;
+            Y = position.Y;
+            Width = width;
+            Height = height;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RectangleF" /> struct.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <param name="dimensions">The dimensions.</param>
+        public RectangleF(float x, float y, Vector2 dimensions)
+        {
+            X = x;
+            Y = y;
+            Width = dimensions.X;
+            Height = dimensions.Y;
+        }
         #endregion
 
         #region Methods 

@@ -1,11 +1,9 @@
-﻿using MonoGame.Extended;
-
-namespace SeraphimEngine.Gui.Menu
+﻿namespace SeraphimEngine.Gui.Menu
 {
     /// <summary>
     /// Interface IMenuGui
     /// </summary>
-    public interface IMenuGui : IDraw, IUpdate
+    public interface IMenuGui : IMessageGui
     {
         /// <summary>
         /// Gets the identifier.
@@ -18,10 +16,5 @@ namespace SeraphimEngine.Gui.Menu
         /// </summary>
         /// <value><c>true</c> if this instance is visible; otherwise, <c>false</c>.</value>
         bool IsVisible { get; set; }
-
-        /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        void Initialize();
     }
 }

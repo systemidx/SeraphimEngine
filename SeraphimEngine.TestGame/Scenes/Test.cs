@@ -24,12 +24,12 @@ namespace SeraphimEngine.TestGame.Scenes
         {
             _textureBackground = AssetManager.Instance.GetAsset<Texture2D>("textures/scenes/StartMenu", "bg");
 
-            LoadMenu(new MenuGui(
-                            "test", 
-                            new MenuPosition(MenuPositionHorizontal.Center, MenuPositionVertical.Center, true),
-                            true,
-                            new MenuChoice("Open GUI", typeof(Content.Scripts.Scene.Scene_Test)),
-                            new MenuChoice("Open GUI", typeof(Content.Scripts.Scene.Scene_Test))));
+            //LoadMenu(new MenuGui(
+            //                "test", 
+            //                new MenuGuiPosition(MenuPositionHorizontal.Center, MenuPositionVertical.Center, true),
+            //                true,
+            //                new MenuChoice("Open GUI", typeof(Content.Scripts.Scene.Scene_Test)),
+            //                new MenuChoice("Open GUI", typeof(Content.Scripts.Scene.Scene_Test))));
         }
 
         public override void Unload()

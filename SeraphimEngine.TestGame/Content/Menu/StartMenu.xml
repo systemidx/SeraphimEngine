@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Menu OnActionClose="true">
+  <Id>MainMenu</Id>
+  <Position Center="true"></Position>
+  <Choices>
+    <Choice Script="Scene_Start_Menu_Start" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">This is a choice.</Choice>
+    <Choice Script="Scene_Start_Menu_Exit" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">This is a meaningful choice.</Choice>
+    <Choice Script="Scene_Start_Menu_Exit" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">This is a meh choice.</Choice>
+  </Choices>
+</Menu>

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Menu OnActionClose="true">
-  <Id>MainMenu</Id>
-  <Position X="Center" Y="Center" Center="true"></Position>
-  <Choices>
-    <Choice Script="Scene_Start_Menu_Start" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">Start the Game</Choice>
-    <Choice Script="Scene_Start_Menu_Exit" ScriptNamespace="SeraphimEngine.TestGame.Content.Scripts.Scene">Exit the Game</Choice>
-  </Choices>
-</Menu>

@@ -41,10 +41,9 @@ namespace SeraphimEngine.Gui.Menu
         {
             if (string.IsNullOrEmpty(text) || script == null)
                 throw new GuiException();
-
-            Text = text;
+            
             Script = script;
-
+            Text = text;
             OnAccept = () => ScriptManager.Instance.StartScript(Script, true);
         }
 

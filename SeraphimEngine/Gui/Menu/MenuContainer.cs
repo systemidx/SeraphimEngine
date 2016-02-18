@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using SeraphimEngine.Definitions;
 using SeraphimEngine.Helpers.Asset;
+using SeraphimEngine.Helpers.Definitions;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Gui;
 
@@ -12,32 +14,16 @@ namespace SeraphimEngine.Gui.Menu
     public class MenuContainer : IDraw
     {
         #region Private Variables
+        
+        /// <summary>
+        /// The destination matrix
+        /// </summary>
+        private readonly Matrix3<RectangleF> _destinationRectangles;
 
         /// <summary>
-        /// The menu position
+        /// The source matrix
         /// </summary>
-        private readonly MenuPosition _position;
-
-        /// <summary>
-        /// The container texture's dimensions
-        /// </summary>
-        private readonly Vector2 _containerTextureDimensions;
-
-        /// <summary>
-        /// The text dimensions
-        /// </summary>
-        private readonly Vector2 _textDimensions;
-
-        /// <summary>
-        /// The spritesheet positions
-        /// </summary>
-        private readonly Rectangle[] _spritesheetPositions = new Rectangle[9];
-
-        /// <summary>
-        /// The container slices
-        /// </summary>
-        private readonly Rectangle[] _containerSlices = new Rectangle[9];
-
+        private readonly Matrix3<RectangleF> _sourceRectangles;
         #endregion
 
         #region Constructor
@@ -45,18 +31,14 @@ namespace SeraphimEngine.Gui.Menu
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuContainer"/> class.
         /// </summary>
-        /// <param name="position">The position.</param>
+        /// <param name="guiPosition">The guiPosition.</param>
         /// <param name="textDimensions">The text dimensions.</param>
-        public MenuContainer(MenuPosition position, Vector2 textDimensions)
+        public MenuContainer(Vector2 guiPosition, Vector3 textDimensions)
         {
-            _position = position;
-            _containerTextureDimensions = new Vector2(GuiManager.Instance.GuiContainerTexture.Width, GuiManager.Instance.GuiContainerTexture.Height);
-            _textDimensions = textDimensions;
+            Vector2 containerTextureDimensions = GuiManager.Instance.GuiContainerTexture.GetDimensions();
 
-            Vector2 containerDimensions = new Vector2(_containerTextureDimensions.X/3 + _textDimensions.X, _containerTextureDimensions.Y/3 + _textDimensions.Y);
-            _position.Initialize(containerDimensions);
-
-            SetContainerMetadata();
+            _sourceRectangles = GuiManager.Instance.GuiContainerTexture.GetMatrix();
+            _destinationRectangles = MessageHelper.CreateContainerDestinationMatrix(guiPosition, containerTextureDimensions, textDimensions);
         }
 
         #endregion
@@ -69,24 +51,9 @@ namespace SeraphimEngine.Gui.Menu
         /// <param name="gameTime">The game time.</param>
         public void Draw(GameTime gameTime)
         {
-            for (int i = 0; i < 9; ++i)
-                GameManager.Instance.SpriteBatch.Draw(GuiManager.Instance.GuiContainerTexture, _containerSlices[i], _spritesheetPositions[i], Color.White);
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Sets the container metadata.
-        /// </summary>
-        private void SetContainerMetadata()
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                _spritesheetPositions[i] = ContainerHelper.GetSpritesheetScopeRect(i, _containerTextureDimensions);
-                _containerSlices[i] = ContainerHelper.GetContainerRect(i, _position.Position, _containerTextureDimensions, _textDimensions);
-            }
+            for (int col = 0; col < 3; ++col)
+                for (int row = 0; row < 3; ++row)
+                    GameManager.Instance.SpriteBatch.Draw(GuiManager.Instance.GuiContainerTexture, _destinationRectangles[row, col].ToRectangle(), _sourceRectangles[row, col].ToRectangle(), Color.White);
         }
 
         #endregion

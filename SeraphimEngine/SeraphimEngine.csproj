@@ -132,22 +132,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\Camera2D.cs" />
+    <Compile Include="Content\IContentConvertible.cs" />
+    <Compile Include="Content\IVariableConvertible.cs" />
+    <Compile Include="Content\VariableConverter.cs" />
+    <Compile Include="Definitions\Matrix3.cs" />
     <Compile Include="Definitions\RectangleF.cs" />
+    <Compile Include="Exceptions\GuiVariableConversionException.cs" />
     <Compile Include="Exceptions\GuiException.cs" />
     <Compile Include="Exceptions\ScriptManagerInitializationException.cs" />
     <Compile Include="Exceptions\ScriptCodeException.cs" />
     <Compile Include="Exceptions\ScriptNotRegisteredException.cs" />
+    <Compile Include="Gui\IMessageGui.cs" />
     <Compile Include="Gui\Menu\ConversionObjects\MenuConverter.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuIndexAction.cs" />
     <Compile Include="Gui\Menu\MenuChoiceMetadata.cs" />
+    <Compile Include="Gui\MessageBox\ConversionObjects\MessageGuiConverter.cs" />
+    <Compile Include="Gui\MessageBox\ConversionObjects\IMessageGuiConverter.cs" />
+    <Compile Include="Gui\MessageBox\IMessageBoxGui.cs" />
+    <Compile Include="Gui\MessageBox\MessageBoxGui.cs" />
+    <Compile Include="Gui\MessageBox\MessageBoxContainer.cs" />
+    <Compile Include="Gui\MessageHelper.cs" />
     <Compile Include="Gui\Splash\ISplashScreen.cs" />
     <Compile Include="Gui\Splash\SplashScreen.cs" />
-    <Compile Include="Helpers\Asset\ContainerHelper.cs" />
+    <Compile Include="Helpers\Asset\BitmapFontExtensions.cs" />
+    <Compile Include="Helpers\Asset\SpriteFontExtensions.cs" />
+    <Compile Include="Helpers\Asset\Texture2DExtensions.cs" />
     <Compile Include="Helpers\Asset\TextureFadeDirection.cs" />
     <Compile Include="Helpers\Asset\TextureFader.cs" />
     <Compile Include="Helpers\Definitions\RectangleFExtensions.cs" />
     <Compile Include="Helpers\Definitions\RectangleExtensions.cs" />
-    <Compile Include="Helpers\SpriteBatch\SpriteBatchExtensions.cs" />
+    <Compile Include="Helpers\Asset\SpriteBatchExtensions.cs" />
     <Compile Include="Input\Enumerations\GameActionInputDevice.cs" />
     <Compile Include="Input\IGameActionInputMapping.cs" />
     <Compile Include="Input\GameActionInputMapping.cs" />
@@ -172,7 +186,7 @@
     <Compile Include="Gui\Menu\MenuGui.cs" />
     <Compile Include="Gui\Menu\MenuChoice.cs" />
     <Compile Include="Gui\Menu\MenuContainer.cs" />
-    <Compile Include="Gui\Menu\MenuPosition.cs" />
+    <Compile Include="Gui\Menu\MenuGuiPosition.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuPositionVertical.cs" />
     <Compile Include="Gui\Menu\Enumerations\MenuPositionHorizontal.cs" />
     <Compile Include="Map\ConversionObjects\TiledLayerConverter.cs" />

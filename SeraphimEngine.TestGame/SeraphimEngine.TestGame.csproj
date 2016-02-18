@@ -65,6 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Fonts\DefaultBitmap_0.png" />
+    <Content Include="Content\Fonts\Default_32_0.png" />
+    <Content Include="Content\Fonts\Default_64_0.png" />
+    <Content Include="Content\Fonts\Default_64_1.png" />
     <Content Include="Content\Maps\Tilesets\Outside_A1.png" />
     <Content Include="Content\Maps\Tilesets\Outside_A1_32.png" />
     <Content Include="Content\Maps\Tilesets\Outside_A1_64.png" />
@@ -72,12 +76,16 @@
     <Content Include="Content\Maps\Tilesets\Outside_A2_32.png" />
     <Content Include="Content\Maps\Tilesets\Outside_A2_64.png" />
     <Content Include="Content\Menu\TestMenu.xml" />
-    <Content Include="Content\Menu\MainMenu.xml" />
+    <Content Include="Content\Menu\StartMenu.xml" />
+    <Content Include="Content\Message\TestMessage.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Music\splash.mp3" />
     <Content Include="Content\Sounds\rollover.mp3" />
     <Content Include="Content\Sounds\select.mp3" />
     <Content Include="Content\Spritesheets\ui.png" />
     <Content Include="Content\Textures\Menu\cursor.png" />
+    <Content Include="Content\Textures\Menu\menu.png" />
     <Content Include="Content\Textures\Scenes\StartMenu\bg.png" />
     <Content Include="Content\Textures\Scenes\StartMenu\menu.png" />
     <Content Include="Content\Textures\Scenes\Splash\engine.png" />
@@ -99,10 +107,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Content\Fonts\Default.spritefont" />
     <Compile Include="Content\Scripts\Scene\Scene_Test.cs" />
     <Compile Include="Content\Scripts\Scene\Scene_Start_Menu_Exit.cs" />
     <Compile Include="Content\Scripts\Scene\Scene_Start_Menu_Start.cs" />
+    <None Include="Content\Fonts\DefaultBitmap.fnt" />
+    <None Include="Content\Fonts\Default_32.fnt" />
+    <None Include="Content\Fonts\Default_64.fnt" />
     <None Include="Content\Maps\TestTiledMap.tmx" />
     <None Include="Content\Maps\Test2.tmx" />
     <None Include="packages.config" />

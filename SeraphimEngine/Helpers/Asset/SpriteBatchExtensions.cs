@@ -1,11 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 
-namespace SeraphimEngine.Helpers.SpriteBatch
+namespace SeraphimEngine.Helpers.Asset
 {
+    /// <summary>
+    /// Class SpriteBatchExtensions.
+    /// </summary>
     public static class SpriteBatchExtensions
     {
-        public static void DrawShadowedText(this Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, string text, SpriteFont font, Vector2 position, Color color)
+        /// <summary>
+        /// Draws the shadowed text.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="font">The font.</param>
+        /// <param name="position">The position.</param>
+        /// <param name="color">The color.</param>
+        public static void DrawShadowedText(this SpriteBatch spriteBatch, string text, BitmapFont font, Vector2 position, Color color)
         {
             const float OPACITY = 0.7f;
             Color blackWithOpacity = Color.Black * OPACITY;

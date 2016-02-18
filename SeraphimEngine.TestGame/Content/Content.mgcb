@@ -99,12 +99,6 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Menu/menu.png
 
-#begin Fonts/Default.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Color
-/build:Fonts/Default.spritefont
-
 #begin Maps/Tilesets/Outside_A2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -141,11 +135,6 @@
 /importer:ScriptImporter
 /processor:ScriptProcessor
 /build:Scripts/Scene/Scene_Test.cs
-
-#begin Menu/MainMenu.xml
-/importer:MenuImporter
-/processor:MenuProcessor
-/build:Menu/MainMenu.xml
 
 #begin Maps/Test2.tmx
 /importer:TiledMapImporter
@@ -216,4 +205,57 @@
 /importer:MenuImporter
 /processor:MenuProcessor
 /build:Menu/TestMenu.xml
+
+#begin Menu/StartMenu.xml
+/importer:MenuImporter
+/processor:MenuProcessor
+/build:Menu/StartMenu.xml
+
+#begin Fonts/Default_32.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/Default_32.fnt
+
+#begin Fonts/Default_32_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Fonts/Default_32_0.png
+
+#begin Fonts/Default_64.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:Fonts/Default_64.fnt
+
+#begin Fonts/Default_64_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Fonts/Default_64_0.png
+
+#begin Fonts/Default_64_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Fonts/Default_64_1.png
+
+#begin Message/TestMessage.xml
+/importer:MessageImporter
+/processor:MessageProcessor
+/build:Message/TestMessage.xml
 

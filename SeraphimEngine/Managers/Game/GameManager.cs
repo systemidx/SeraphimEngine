@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using SeraphimEngine.Definitions;
-using SeraphimEngine.Helpers.Definitions;
 using SeraphimEngine.Managers.Asset;
 using SeraphimEngine.Managers.Gui;
 using SeraphimEngine.Managers.Input;
@@ -32,6 +28,11 @@ namespace SeraphimEngine.Managers.Game
         /// </summary>
         private RasterizerState _rasterizerState;
 
+        /// <summary>
+        /// The global variables
+        /// </summary>
+        private readonly IDictionary<string, object> _globalVariables = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Public Properties
@@ -56,7 +57,7 @@ namespace SeraphimEngine.Managers.Game
 
         #endregion
 
-        #region Public Methods
+        #region Event Life Cycle
 
         /// <summary>
         /// Initializes the specified content.
@@ -117,5 +118,32 @@ namespace SeraphimEngine.Managers.Game
         }
 
         #endregion
+
+        #region Game Variable Methods
+
+        /// <summary>
+        /// Gets the game variable.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>TGameVarOutputType.</returns>
+        public dynamic GetGameVariable(string key)
+        {
+            return _globalVariables.ContainsKey(key) ? _globalVariables[key] : null;
+        }
+
+        /// <summary>
+        /// Sets the game variable.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        public void SetGameVariable(string key, object value)
+        {
+            if (_globalVariables.ContainsKey(key))
+                _globalVariables[key] = value;
+            _globalVariables.Add(key, value);
+        }
+
+        #endregion
+
     }
 }

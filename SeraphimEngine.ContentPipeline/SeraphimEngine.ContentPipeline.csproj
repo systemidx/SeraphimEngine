@@ -61,6 +61,10 @@
     <Compile Include="Menu\Serialization\MenuDataDeserializer.cs" />
     <Compile Include="Menu\Serialization\MenuImporter.cs" />
     <Compile Include="Menu\Serialization\MenuProcessor.cs" />
+    <Compile Include="Message\MessageData.cs" />
+    <Compile Include="Message\Serialization\MessageDataDeserializer.cs" />
+    <Compile Include="Message\Serialization\MessageImporter.cs" />
+    <Compile Include="Message\Serialization\MessageProcessor.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Script\ScriptMetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,11 +81,13 @@
     <Compile Include="TiledMap\TiledMapTileset.cs" />
     <Compile Include="TiledMap\TiledMapTilesetTileFrame.cs" />
     <Compile Include="TiledMap\TiledMapTilesetTile.cs" />
+    <Compile Include="VariableConvertibleAttribute.cs" />
     <Compile Include="XmlDeserializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

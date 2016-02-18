@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.ViewportAdapters;
 using SeraphimEngine.Definitions;
@@ -111,6 +110,18 @@ namespace SeraphimEngine.Camera
         public bool IsInCameraView(RectangleF sourceRectangle)
         {
             return ViewportPosition.Intersects(sourceRectangle);
+        }
+
+        /// <summary>
+        /// Gets the center coordinates.
+        /// </summary>
+        /// <returns>Microsoft.Xna.Framework.Vector2.</returns>
+        public Vector2 GetCenterCoordinates()
+        {
+            float widthSlice = VirtualResolution.X / 3;
+            float heightSlice = VirtualResolution.Y / 3;
+
+            return new Vector2(widthSlice, heightSlice);
         }
 
         #endregion

@@ -6,7 +6,7 @@ namespace SeraphimEngine.ContentPipeline.Menu.Serialization
     /// <summary>
     /// Class ScriptImporter.
     /// </summary>
-    [ContentImporter("xml", DefaultProcessor = "ScriptProcessor", DisplayName = "Seraphim Importer - Menu")]
+    [ContentImporter("xml", DefaultProcessor = "MenuProcessor", DisplayName = "Seraphim Importer - Menu")]
     public class MenuImporter : ContentImporter<string>
     {
         /// <summary>

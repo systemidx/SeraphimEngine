@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -80,7 +79,7 @@ namespace SeraphimEngine.Managers.Script
         /// <summary>
         /// The scripts that are serialized from the Content
         /// </summary>
-        private ScriptMetaData[] _scriptMetaDataMetaData;
+        private ScriptMetaData[] _scriptMetaData;
 
         #endregion
 
@@ -101,7 +100,7 @@ namespace SeraphimEngine.Managers.Script
                 Thread.Sleep(10);
 
             //Get the index of the script
-            int idx = ((List<IScript>) _scripts).FindIndex(x => x.GetType().Name == script.Name);
+            int idx = ((List<IScript>) _scripts).FindIndex(x => x != null && x.GetType().Name == script.Name);
             if (idx > -1)
             {
                 //Check to see if task is still in the collection and remove it
@@ -139,7 +138,7 @@ namespace SeraphimEngine.Managers.Script
             if (!IsInitialized)
                 throw new ScriptManagerInitializationException();
 
-            int idx = ((List<IScript>) _scripts).FindIndex(x => x.GetType().Name == script.Name);
+            int idx = ((List<IScript>) _scripts).FindIndex(x => x != null && x.GetType().Name == script.Name);
             if (idx > -1)
                 return;
 
@@ -254,7 +253,7 @@ namespace SeraphimEngine.Managers.Script
         /// <exception cref="ScriptCodeException">
         /// </exception>
         /// <exception cref="SeraphimEngine.Exceptions.AssetManagerInitializationException"></exception>
-        private IScript CompileScript([NotNull] ScriptMetaData scriptMetaData)
+        private IScript CompileScript(ScriptMetaData scriptMetaData)
         {
             if (!AssetManager.Instance.IsInitialized)
                 throw new AssetManagerInitializationException();
@@ -324,9 +323,9 @@ namespace SeraphimEngine.Managers.Script
         /// </summary>
         private void PreloadScripts()
         {
-            _scriptMetaDataMetaData = AssetManager.Instance.GetAllAssets<ScriptMetaData>(CONTENT_DIRECTORY);
+            _scriptMetaData = AssetManager.Instance.GetAllAssets<ScriptMetaData>(CONTENT_DIRECTORY);
 
-            foreach (ScriptMetaData scriptContent in _scriptMetaDataMetaData)
+            foreach (ScriptMetaData scriptContent in _scriptMetaData)
                 _compilationTasks.Add(scriptContent.Id, GetCompileTask(scriptContent));
 
             foreach (Task task in _compilationTasks.Values)
@@ -338,7 +337,7 @@ namespace SeraphimEngine.Managers.Script
         /// </summary>
         /// <param name="scriptMetaData">Content of the script.</param>
         /// <returns>Task.</returns>
-        private Task GetCompileTask([NotNull] ScriptMetaData scriptMetaData)
+        private Task GetCompileTask(ScriptMetaData scriptMetaData)
         {
             return new Task(() => _scripts.Add(CompileScript(scriptMetaData)));
         }

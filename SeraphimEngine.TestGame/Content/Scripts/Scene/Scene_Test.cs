@@ -14,15 +14,15 @@ namespace SeraphimEngine.TestGame.Content.Scripts.Scene
     {
         public override void Start(bool runOnce = false)
         {
-            SceneManager.Instance.CurrentScene.LoadMenu(
-                new MenuGui(
-                    "nested-test",
-                    new MenuPosition(Vector2.Zero),
-                    true,
-                    new MenuChoice("Start", () => SceneManager.Instance.SwitchScene(typeof (Splash))),
-                    new MenuChoice("Exit", () => GameManager.Instance.Exit())
-                    )
-                );
+            //SceneManager.Instance.CurrentScene.LoadMenu(
+            //    new MenuGui(
+            //        "nested-test",
+            //        new MenuGuiPosition(Vector2.Zero),
+            //        true,
+            //        new MenuChoice("Start", () => SceneManager.Instance.SwitchScene(typeof (Splash))),
+            //        new MenuChoice("Exit", () => GameManager.Instance.Exit())
+            //        )
+            //    );
 
             base.Start(runOnce);
         }

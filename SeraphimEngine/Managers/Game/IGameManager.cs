@@ -3,8 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SeraphimEngine.Managers.Game
 {
+    /// <summary>
+    /// Interface IGameManager
+    /// </summary>
     public interface IGameManager
     {
+        #region Properties
+
         /// <summary>
         /// Gets a value indicating whether [should exit].
         /// </summary>
@@ -16,6 +21,10 @@ namespace SeraphimEngine.Managers.Game
         /// </summary>
         /// <value>The sprite batch.</value>
         SpriteBatch SpriteBatch { get; }
+
+        #endregion
+
+        #region Life Cycle Events
 
         /// <summary>
         /// Updates the specified game time.
@@ -38,5 +47,25 @@ namespace SeraphimEngine.Managers.Game
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         void Exit();
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the game variable.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>TGameVarOutputType.</returns>
+        dynamic GetGameVariable(string key);
+
+        /// <summary>
+        /// Sets the game variable.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        void SetGameVariable(string key, object value);
+
+        #endregion
     }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using MonoGame.Extended.BitmapFonts;
 using SeraphimEngine.Gui.Menu.Enumerations;
-using SeraphimEngine.Helpers.SpriteBatch;
+using SeraphimEngine.Helpers.Asset;
 using SeraphimEngine.Input.Enumerations;
 using SeraphimEngine.Managers.Game;
 using SeraphimEngine.Managers.Gui;
@@ -26,9 +27,9 @@ namespace SeraphimEngine.Gui.Menu
         private MenuContainer _container;
 
         /// <summary>
-        /// The position
+        /// The guiPosition
         /// </summary>
-        private readonly MenuPosition _position;
+        private Vector2 _containerPosition;
 
         /// <summary>
         /// The choices
@@ -49,11 +50,6 @@ namespace SeraphimEngine.Gui.Menu
         /// The choice index
         /// </summary>
         private int _choiceIndex;
-
-        /// <summary>
-        /// The container buffer
-        /// </summary>
-        private Vector2 _containerBuffer;
 
         #endregion
 
@@ -87,19 +83,17 @@ namespace SeraphimEngine.Gui.Menu
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="position">The position.</param>
-        /// <param name="unloadMenuOnAction">if set to <c>true</c> [unload menu on action].</param>
+        /// <param name="center">The center.</param>
+        /// <param name="unloadMenuOnAction">The unload menu on action.</param>
         /// <param name="choices">The choices.</param>
-        public MenuGui(string id, MenuPosition position, bool unloadMenuOnAction = false, params MenuChoice[] choices)
+        public MenuGui(string id, Vector2 position, bool center = false, bool unloadMenuOnAction = false, params MenuChoice[] choices)
         {
-            if (position == null)
-                throw new ArgumentNullException();
-
             Id = id;
 
             foreach (MenuChoice choice in choices)
                 _choices.Add(choice);
 
-            _position = position;
+            _containerPosition = center ? SceneManager.Instance.Camera.GetCenterCoordinates() : position;
             _unloadMenuOnAction = unloadMenuOnAction;
         }
 
@@ -111,11 +105,10 @@ namespace SeraphimEngine.Gui.Menu
         /// </summary>
         public void Initialize()
         {
-            int maxMessageWidth = (int)_choices.Max(x => GuiManager.Instance.GuiFont.MeasureString(x.Text).X);
-            int maxMessageHeight = (int)_choices.Sum(x => GuiManager.Instance.GuiFont.MeasureString(x.Text).Y);
+            float maxMessageWidth = _choices.Max(x => GuiManager.Instance.GetFont().GetStringRectangle(x.Text, Vector2.Zero).Width);
+            float maxMessageHeight = _choices.Sum(x => GuiManager.Instance.GetFont().LineHeight) + GuiManager.Instance.GetFont().LineHeight;
 
-            _container = new MenuContainer(_position, new Vector2(maxMessageWidth, maxMessageHeight));
-            _containerBuffer = new Vector2(GuiManager.Instance.GuiContainerTexture.Width / 3, GuiManager.Instance.GuiContainerTexture.Height / 3);
+            _container = new MenuContainer(_containerPosition, new Vector3(maxMessageWidth, maxMessageHeight, 1));
 
             SetTextAndCursorPositions();
         }
@@ -132,12 +125,8 @@ namespace SeraphimEngine.Gui.Menu
             _container.Draw(gameTime);
 
             for (int i = 0; i < _choices.Count; ++i)
-            {
-                if (_choiceIndex == i)
-                    GameManager.Instance.SpriteBatch.Draw(GuiManager.Instance.GuiCursorTexture, _metaData[i].CursorPosition, Color.White);
-
-                GameManager.Instance.SpriteBatch.DrawShadowedText(_choices[i].Text, GuiManager.Instance.GuiFont, _metaData[i].TextPosition, Color.White);
-            }
+                GameManager.Instance.SpriteBatch.DrawShadowedText(_choices[i].Text, GuiManager.Instance.GetFont(), _metaData[i].TextPosition, Color.White);
+            GameManager.Instance.SpriteBatch.Draw(GuiManager.Instance.GuiCursorTexture, _metaData[_choiceIndex].CursorPosition, Color.White);
         }
 
         /// <summary>
@@ -177,21 +166,17 @@ namespace SeraphimEngine.Gui.Menu
         {
             for (int i = 0; i < _choices.Count; ++i)
             {
-                Vector2 textSize = GuiManager.Instance.GuiFont.MeasureString(_choices[i].Text);
+                Vector2 textSize = GuiManager.Instance.GetFont().GetTextSize(_choices[i].Text);
+                Vector2 buffer = new Vector2(GuiManager.Instance.GuiContainerTexture.Width, GuiManager.Instance.GuiContainerTexture.Height * (i + 1));
+                Vector2 textPosition = new Vector2(_containerPosition.X + buffer.X, i * textSize.Y + buffer.Y + _containerPosition.Y);
+                Vector2 cursorPosition = new Vector2(textPosition.X + textSize.X + GuiManager.Instance.GuiCursorTexture.Width, textPosition.Y + textSize.Y);
 
-                MenuChoiceMetaData meta = new MenuChoiceMetaData
+                _metaData.Add(new MenuChoiceMetaData
                 {
                     TextSize = textSize,
-                    TextPosition =
-                        new Vector2(_position.Position.X + _containerBuffer.X,
-                            i*textSize.Y + _containerBuffer.Y + _position.Position.Y),
-                    CursorPosition =
-                        new Vector2(_position.Position.X + _containerBuffer.X + textSize.X,
-                            (i*textSize.Y) + textSize.Y/2 + _containerBuffer.Y + _position.Position.Y)
-                };
-
-
-                _metaData.Add(meta);
+                    TextPosition = textPosition,
+                    CursorPosition = cursorPosition
+                });
             }
         }
 

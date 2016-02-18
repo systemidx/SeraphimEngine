@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using MonoGame.Extended.BitmapFonts;
 
 namespace SeraphimEngine.Managers.Gui
 {
@@ -8,6 +10,30 @@ namespace SeraphimEngine.Managers.Gui
     /// </summary>
     public interface IGuiManager
     {
+        #region Fonts
+
+        /// <summary>
+        /// Gets the default font.
+        /// </summary>
+        /// <returns>BitmapFont.</returns>
+        BitmapFont GetFont();
+
+        /// <summary>
+        /// Gets the font.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="size">The size.</param>
+        /// <returns>BitmapFont.</returns>
+        BitmapFont GetFont(string name, int size);
+
+        /// <summary>
+        /// Gets the fonts.
+        /// </summary>
+        /// <value>The fonts.</value>
+        IDictionary<string, BitmapFont> Fonts { get; }
+
+        #endregion
+
         #region Sound Effect Methods
 
         /// <summary>
